@@ -28,4 +28,5 @@ struct token tokens[256];
  *  retorna um ponteiro para o token dado                     *
  *  nulo caso nao haja tokens disponiveis                     *
  **************************************************************/
-struct token* give_token(struct in_addr client);
+struct token* give_token(struct in_addr client, struct mac_addr machine);
+struct token* free_token(struct token* token);
