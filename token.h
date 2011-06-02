@@ -14,7 +14,8 @@ struct token
 {
   /* indexar tokenid de zero para manter consistencia! */
   unsigned char tokenid; /* Token ID, temos 256 disponiveis no maximo */
-  struct in_addr last_owner; /* ultimo a receber este token */
+  struct in_addr last_owner_ip; /* ultimo a receber este token */
+  struct mac_addr last_owner_mac;
   char free; /* 0 -> token ocupado, 1 -> token livre */
 };
 
