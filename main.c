@@ -15,6 +15,10 @@
  * s : servidor *
  * c : client   *
  ****************/
+
+struct usuario* users[50];
+struct aviao* voos[50];
+
 int main(int argc, char* argv[])
 {
 
