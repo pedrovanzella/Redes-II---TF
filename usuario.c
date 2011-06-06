@@ -17,8 +17,14 @@ struct usuario* novo_usuario(char* nome, char* senha)
 
 struct usuario* login(char* nome, char* senha)
 {
-  struct usuario* user = find_by_name(nome);
-  if(!user) return NULL; // Se user nao existe
+  struct usuario* user;
+  *user = malloc(sizeof(struct usuario));
+  user = find_by_name(nome);
+  if(!user)
+  {
+    free(*user); // Memory leak
+    return NULL; // Se user nao existe
+  }
   if(!(strcmp(user->senha, senha))) return user; // Se a senha esta certa
   return NULL; // Senha errada
 }
