@@ -8,7 +8,8 @@
 /**********************************************************************/
 
 #include <stdio.h>
-#include "token.h"
+#include "aviao.h"
+#include "usuario.h"
 
 /****************
  * PARAMETROS:  *
@@ -34,6 +35,7 @@ int main(int argc, char* argv[])
   if(argv[1] == 's')
   {
     /* MODO SERVIDOR */
+    /* inicia banco do servidor, lendo arquivo de avioes */
     /* Pede por login */
     if(login(user, pass))
     {
