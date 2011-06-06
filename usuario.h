@@ -1,3 +1,11 @@
+/***********************************************************
+ * usuario.h                                               *
+ * Declaracao da estrutura de usuario e headers de funcoes *
+ * Catiane, Matheus da Rosa, Pedro Vanzella                *
+ *                                                         *
+ * Redes 2                                                 *
+ ***********************************************************/
+
 struct usuario
 {
   char nome[20];

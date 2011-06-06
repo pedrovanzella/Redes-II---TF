@@ -1,3 +1,10 @@
+/*****************************************************
+ * aviao.h                                           *
+ * Estrutura de dados e headers de funcoes de avioes *
+ * Catiane, Matheus da Rosa, Pedro Vanzella          *
+ *                                                   *
+ * REDES 2                                           *
+ *****************************************************/
 struct aviao
 {
   char nome[20];
