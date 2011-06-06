@@ -21,24 +21,40 @@ struct aviao* voos[50];
 
 int main(int argc, char* argv[])
 {
-
-  /* MODO CLIENTE */
-  /* MODO SERVIDOR */
-  /* Pede por login */
-  if(login(user, pass))
+  if(argc < 2) /* Testa o numero de parametros de linha de comando */
   {
-    /* Usuario logado */ 
-    /* imprime prompt de comando */
-    char cmd;
-    /* grande case de opcoes */
+    fprintf(stderr, "\e[1m\e[33m[x] Inicie com %s s para modo servidor ou %s c para modo cliente", argv[0], argv[0]);
+    return 1;
+  }
+  if(argv[1] == 'c')
+  {
+    /* MODO CLIENTE */
+  }
 
-    switch(cmd)
+  if(argv[1] == 's')
+  {
+    /* MODO SERVIDOR */
+    /* Pede por login */
+    if(login(user, pass))
     {
-      case 'c': /* Chunky */
-        break;
-      case 'b': /* Bacon */
-        break;
+      /* Usuario logado */ 
+      /* imprime prompt de comando */
+      char cmd;
+      /* grande case de opcoes */
+
+      switch(cmd)
+      {
+        case 'c': /* Chunky */
+          break;
+        case 'b': /* Bacon */
+          break;
+      }
     }
+  }
+  else /* parametro errado */
+  {
+    fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente", argv[1]);
+    return 1;
   }
 
   return 0;
