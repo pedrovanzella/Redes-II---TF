@@ -14,3 +14,4 @@ struct usuario
 
 struct usuario* novo_usuario(char* nome, char* senha);
 struct usuario* login(char* nome, char* senha); /* retorna nulo caso falhe */
+struct usuario* find_by_name(char* name);
