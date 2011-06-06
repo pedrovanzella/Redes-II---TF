@@ -6,6 +6,7 @@
  *******************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "usuario.h"
 
 extern struct usuario* users[50];

@@ -27,16 +27,17 @@ int main(int argc, char* argv[])
     fprintf(stderr, "\e[1m\e[33m[x] Inicie com %s s para modo servidor ou %s c para modo cliente", argv[0], argv[0]);
     return 1;
   }
-  if(argv[1] == 'c')
+  if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
   }
 
-  if(argv[1] == 's')
+  if(*argv[1] == 's')
   {
     /* MODO SERVIDOR */
     /* inicia banco do servidor, lendo arquivo de avioes */
     /* Pede por login */
+    char* user, pass;
     if(login(user, pass))
     {
       /* Usuario logado */ 
