@@ -27,7 +27,14 @@ void popula_db_users()
     {
       fprintf(stderr, "popula_db_users(): Falha ao abrir arquivo de usuarios!");
     }
-
+    char name[20];
+    char pass[20];
+    int i = 0;
+    while((fscanf(usrfile, "%s:%s", name, pass) != EOF) || i <= 50)
+    {
+      users[i] = novo_usuario(name, pass);
+      i++;
+    }
 }
 
 void salva_user()
