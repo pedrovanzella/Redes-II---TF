@@ -16,4 +16,4 @@ struct usuario* novo_usuario(char* nome, char* senha);
 struct usuario* login(char* nome, char* senha); /* retorna nulo caso falhe */
 struct usuario* find_by_name(char* name);
 void popula_db_users();
-void salva_user();
+void salva_user(struct usuario* usr);

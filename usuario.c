@@ -16,8 +16,8 @@ extern FILE *usrfile;
 struct usuario* novo_usuario(char* nome, char* senha)
 {
   struct usuario* usr = (struct usuario*)malloc(sizeof(struct usuario));
-  strcpy(usr->nome, nome, sizeof(nome));
-  strcpy(usr->senha, senha, sizeof(senha));
+  strcpy(usr->nome, nome);
+  strcpy(usr->senha, senha);
   return usr;
 }
 
@@ -26,6 +26,7 @@ void popula_db_users()
     if(!(usrfile = fopen("usrfile", "r")))
     {
       fprintf(stderr, "popula_db_users(): Falha ao abrir arquivo de usuarios!");
+      exit(1);
     }
     char name[20];
     char pass[20];
@@ -35,11 +36,19 @@ void popula_db_users()
       users[i] = novo_usuario(name, pass);
       i++;
     }
+    fclose(usrfile);
 }
 
-void salva_user()
+void salva_user(struct usuario* usr)
 {
+  if(!(usrfile = fopen("usrfile", "a")))
+  {
+    fprintf(stderr, "salva_user(): Falha ao abrir arquivo de usuarios!");
+    exit(1);
+  }
+  fprintf(usrfile, "%s:%s", usr->nome, usr->senha);
 
+  fclose(usrfile);
 }
 
 struct usuario* login(char* nome, char* senha)
