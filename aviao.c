@@ -23,7 +23,7 @@ void popula_db_voos()
 {
     if(!(voofile = fopen("voofile", "r")))
     {
-      fprintf(stderr, "popula_db_voos(): Falha ao abrir arquivo de usuarios!");
+      fprintf(stderr, "popula_db_voos(): Falha ao abrir arquivo de voos!");
       exit(1);
     }
     char name[20];
@@ -38,7 +38,16 @@ void popula_db_voos()
       i++;
     }
     fclose(voofile);
+    popula_assentos();
+}
 
+void popula_assentos()
+{
+  if(!(assentosfile = fopen("assentosfile", "r")))
+  {
+    fprintf(stderr, "popula_assentos(): Falha ao abrir arquivo de assentos!");
+    exit(1);
+  }
 
 }
 

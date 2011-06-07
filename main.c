@@ -17,10 +17,8 @@
  * c : client   *
  ****************/
 
-struct usuario* users[50];
-struct aviao* voos[50];
-FILE *usrfile;
-FILE *voofile;
+extern struct usuario* users[50];
+extern struct aviao* voos[50];
 
 int main(int argc, char* argv[])
 {
