@@ -30,16 +30,11 @@ void popula_db_voos()
     int part;
     int cheg;
     char status[20];
-    char assentos_alocados_question;
 
     int i = 0;
-    while((fscanf(voofile, "%s:%d:%d:%s:%c", name, &part, &cheg, status, &assentos_alocados_question) != EOF) || i <= 50)
+    while((fscanf(voofile, "%s:%d:%d:%s", name, &part, &cheg, status) != EOF) || i <= 50)
     {
       voos[i] = novo_aviao(name, part, cheg, status);
-      if(assentos_alocados_question) // Jah temos assentos alocados
-      {
-        /* Abrir arquivo de assentos e popular assentos para cada aviao */
-      }
       i++;
     }
     fclose(voofile);
