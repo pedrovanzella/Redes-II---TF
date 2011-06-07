@@ -28,5 +28,13 @@ struct aviao* novo_aviao(char* n, int p, int c, char* s)
 
 struct aviao* reserva_assento(struct aviao* av, int ass, char* user)
 {
-
+  /* verifica se assento esta vazio */
+  if(!(strcpy(av->assentos[ass], "")))
+  {
+    strcpy(av->assentos[ass], user); //Copia nome do user para o assento
+    return av;
+  }
+  printf("assento ocupado!\n");
+  /* Enviar pacote avisando para o cliente */
+  return NULL;
 }
