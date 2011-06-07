@@ -46,7 +46,14 @@ void salva_user(struct usuario* usr)
     fprintf(stderr, "salva_user(): Falha ao abrir arquivo de usuarios!");
     exit(1);
   }
-  fprintf(usrfile, "%s:%s", usr->nome, usr->senha);
+  if(!find_by_name(usr->nome)) // Se usuario nao existe ainda
+  {
+    fprintf(usrfile, "%s:%s", usr->nome, usr->senha);
+  }
+  else
+  {
+    fprintf(stderr, "salva_user(): usuario jah existe!");
+  }
 
   fclose(usrfile);
 }
@@ -56,7 +63,7 @@ struct usuario* login(char* nome, char* senha)
   struct usuario* user;
   user = (struct usuario*) malloc(sizeof(struct usuario));
   user = find_by_name(nome);
-  if(!user)
+  if(!user) // Usuario nao existe
   {
     free(user); // Memory leak
     return NULL; // Se user nao existe
