@@ -37,16 +37,9 @@ int main(int argc, char* argv[])
   if(*argv[1] == 's')
   {
     /* MODO SERVIDOR */
+    popula_db_users();
     /* inicia banco do servidor, lendo arquivo de avioes */
-    if(!(usrfile = fopen("usrfile", "rw")))
-    {
-      fprintf(stderr, "Falha ao abrir arquivo de usuarios!");
-    }
-    if(!(voofile = fopen("voofile", "rw")))
-    {
-      fprintf(stderr, "Falha ao abrir arquivo de voos!");
-    }
-    /* Pede por login */
+       /* Pede por login */
     char* user, pass;
     if(login(user, pass))
     {

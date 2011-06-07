@@ -23,6 +23,10 @@ struct usuario* novo_usuario(char* nome, char* senha)
 
 void popula_db_users()
 {
+    if(!(usrfile = fopen("usrfile", "r")))
+    {
+      fprintf(stderr, "popula_db_users(): Falha ao abrir arquivo de usuarios!");
+    }
 
 }
 
