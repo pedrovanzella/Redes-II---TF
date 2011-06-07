@@ -14,5 +14,5 @@ struct aviao
   char assentos[150][20]; /* Cada assento tem um user. 150 assentos de 20 chars */
 };
 
-struct aviao* novo_aviao(char n, int p, int c, char* s);
+struct aviao* novo_aviao(char* n, int p, int c, char* s);
 struct aviao* reserva_assento(struct aviao* av, int ass, char* user);

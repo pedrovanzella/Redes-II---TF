@@ -6,12 +6,24 @@
  ********************************************/
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "aviao.h"
 
 
-struct aviao* novo_aviao(char n, int p, int c, char* s)
+struct aviao* novo_aviao(char* n, int p, int c, char* s)
 {
+  struct aviao* av = (struct aviao*)malloc(sizeof(struct aviao));
 
+  strcpy(av->nome, n);
+  av->partida = p;
+  av->chegada = c;
+  strcpy(av->status, s);
+
+  /* Zerar assentos */
+  memset(av->assentos, 0, 150*20);
+
+  return av;
 }
 
 struct aviao* reserva_assento(struct aviao* av, int ass, char* user)
