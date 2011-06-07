@@ -15,4 +15,4 @@ struct aviao
 };
 
 struct aviao* novo_aviao(char n, int p, int c, char* s);
-struct aviao* reserva_assento(int ass, char* user);
+struct aviao* reserva_assento(struct aviao* av, int ass, char* user);

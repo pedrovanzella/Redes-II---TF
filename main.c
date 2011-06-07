@@ -19,6 +19,8 @@
 
 struct usuario* users[50];
 struct aviao* voos[50];
+FILE *usrfile;
+FILE *voofile;
 
 int main(int argc, char* argv[])
 {
@@ -36,6 +38,14 @@ int main(int argc, char* argv[])
   {
     /* MODO SERVIDOR */
     /* inicia banco do servidor, lendo arquivo de avioes */
+    if(!(usrfile = fopen("usrfile", "rw")))
+    {
+      fprintf(stderr, "Falha ao abrir arquivo de usuarios!");
+    }
+    if(!(voofile = fopen("voofile", "rw")))
+    {
+      fprintf(stderr, "Falha ao abrir arquivo de voos!");
+    }
     /* Pede por login */
     char* user, pass;
     if(login(user, pass))

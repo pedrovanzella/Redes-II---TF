@@ -7,11 +7,26 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "usuario.h"
 
 extern struct usuario* users[50];
+extern FILE *usrfile;
 
 struct usuario* novo_usuario(char* nome, char* senha)
+{
+  struct usuario* usr = (struct usuario*)malloc(sizeof(struct usuario));
+  strcpy(usr->nome, nome, sizeof(nome));
+  strcpy(usr->senha, senha, sizeof(senha));
+  return usr;
+}
+
+void popula_db_users()
+{
+
+}
+
+void salva_user()
 {
 
 }
