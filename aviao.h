@@ -16,3 +16,6 @@ struct aviao
 
 struct aviao* novo_aviao(char* n, int p, int c, char* s);
 struct aviao* reserva_assento(struct aviao* av, int ass, char* user);
+struct aviao* find_by_voo(char* name);
+void popula_db_voos();
+void salva_voo(struct aviao* voo);
