@@ -6,8 +6,13 @@
  * REDES 2                                           *
  *****************************************************/
 
-/* Receive Functions */
-void DieWithError(char *errorMessage);  /* Error handling function */
+#include "usuario.h"
 
-/* Send Functions */
-void HandleTCPClient(int clntSocket);   /* TCP client handling function */
+typedef struct {
+	char operacao; /* 1 - Pedido de Login */
+	char *IP;
+} Packet;
+
+void DieWithError(char *errorMessage);  /* External error handling function */
+int Cliente(Packet *p);
+int Servidor();
