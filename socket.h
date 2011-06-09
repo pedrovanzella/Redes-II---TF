@@ -10,13 +10,18 @@
 
 #include "usuario.h"
 
+/********** OPERACOES *****************/
+/* 1 - Pedido de Login */
+/* 2 - Pedido de conexao */
+
 typedef struct {
-  char operacao; /* 1 - Pedido de Login */
+  char operacao;
   char* IP;
 } Packet;
 
 void DieWithError(char *errorMessage);  /* External error handling function */
 int Cliente(Packet *p);
 int Servidor();
+int envia_cliente_server(Packet* pkt);
 
 #endif /* _SOCKET_H */

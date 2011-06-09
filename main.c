@@ -39,7 +39,10 @@ int main(int argc, char* argv[])
     /* TODO: Verificar validade do formato! */
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
+    pkt->IP = (char*)malloc(sizeof(ipserver));
     strcpy(pkt->IP, ipserver);
+    pkt->operacao = 2; // Pedido de conexao
+    envia_cliente_server(pkt);
   }
 
   if(*argv[1] == 's')

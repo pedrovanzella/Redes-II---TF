@@ -20,6 +20,14 @@ void DieWithError(char *errorMessage)
 	/* TODO */
 }
 
+int envia_cliente_server(Packet* pkt)
+{
+  /* TODO */
+  printf("envia_cliente_servidor(): enviando\n");
+  printf("operacao: %d\n", pkt->operacao);
+  printf("IP: %s\n", pkt->IP);
+}
+
 int Cliente(Packet *p)
 {
     int sock;                        /* Socket descriptor */
