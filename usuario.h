@@ -5,6 +5,8 @@
  *                                                         *
  * Redes 2                                                 *
  ***********************************************************/
+#ifndef _USUARIO_H
+#define _USUARIO_H
 
 struct usuario
 {
@@ -19,3 +21,5 @@ struct usuario* login(char* nome, char* senha); /* retorna nulo caso falhe */
 struct usuario* find_by_name(char* name);
 void popula_db_users();
 void salva_user(struct usuario* usr);
+
+#endif /* _USUARIO_H */

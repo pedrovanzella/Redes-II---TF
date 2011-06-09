@@ -8,8 +8,11 @@
 /**********************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "aviao.h"
 #include "usuario.h"
+#include "socket.h"
 
 /****************
  * PARAMETROS:  *
@@ -30,6 +33,13 @@ int main(int argc, char* argv[])
   if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
+    printf("Informe IP do servidor: ");
+    char ipserver[20];
+    scanf("%s", ipserver);
+    /* TODO: Verificar validade do formato! */
+    Packet* pkt;
+    pkt = (Packet*)malloc(sizeof(Packet));
+    strcpy(pkt->IP, ipserver);
   }
 
   if(*argv[1] == 's')
