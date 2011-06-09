@@ -48,7 +48,8 @@ int main(int argc, char* argv[])
     popula_db_users();
     /* inicia banco do servidor, lendo arquivo de avioes */
        /* Pede por login */
-    char* user, pass;
+    char* user;
+    char* pass;
     if(login(user, pass))
     {
       /* Usuario logado */ 
