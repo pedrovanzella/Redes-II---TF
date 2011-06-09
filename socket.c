@@ -20,7 +20,7 @@ void DieWithError(char *errorMessage)
 	/* TODO */
 }
 
-int Cliente(Packet *p)
+int Cliente()
 {
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
@@ -33,7 +33,7 @@ int Cliente(Packet *p)
     int echoStringLen;               /* Length of string to echo */
     int respStringLen;               /* Length of received response */
 	
-    servIP = p -> IP;           /* First arg: server IP address (dotted quad) */
+    servIP = "10.37.129.4";           /* First arg: server IP address (dotted quad) */
     echoString = "Teste";       /* Second arg: string to echo */
 	
     if ((echoStringLen = strlen(echoString)) > ECHOMAX)  /* Check input length */
@@ -54,6 +54,7 @@ int Cliente(Packet *p)
     echoServAddr.sin_addr.s_addr = inet_addr(servIP);  /* Server IP address */
     echoServAddr.sin_port   = htons(echoServPort);     /* Server port */
 	
+	printf("To aqui\n");
     /* Send the string to the server */
     if (sendto(sock, echoString, echoStringLen, 0, (struct sockaddr *)
                &echoServAddr, sizeof(echoServAddr)) != echoStringLen)
