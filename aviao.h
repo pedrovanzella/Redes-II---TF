@@ -5,6 +5,9 @@
  *                                                   *
  * REDES 2                                           *
  *****************************************************/
+#ifndef _AVIAO_H
+#define _AVIAO_H
+
 struct aviao
 {
   char nome[20];
@@ -22,3 +25,5 @@ struct aviao* find_by_voo(char* name);
 void popula_db_voos();
 void popula_assentos();
 void salva_voo(struct aviao* voo);
+
+#endif /* _AVIAO_H */
