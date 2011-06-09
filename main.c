@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 {
   if(argc != 2) /* Testa o numero de parametros de linha de comando */
   {
-    fprintf(stderr, "\e[1m\e[32m[x] Inicie com %s s para modo servidor ou %s c para modo cliente\e[0m\n", argv[0], argv[0]);
+    fprintf(stderr, "\e[1m\e[32m[x] Inicie com \e[31m%s s \e[32mpara modo servidor ou \e[31m%s c\e[32m para modo cliente\e[0m\n", argv[0], argv[0]);
     return 1;
   }
   if(*argv[1] == 'c')
