@@ -47,6 +47,8 @@ int main(int argc, char* argv[])
 
   if(*argv[1] == 's')
   {
+	Servidor();
+	  return;  
     /* MODO SERVIDOR */
     popula_db_users();
     /* inicia banco do servidor, lendo arquivo de avioes */
