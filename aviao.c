@@ -21,24 +21,24 @@ struct aviao* find_by_voo(char* name)
 
 void popula_db_voos()
 {
-    if(!(voofile = fopen("voofile", "r")))
-    {
-      fprintf(stderr, "popula_db_voos(): Falha ao abrir arquivo de voos!");
-      exit(1);
-    }
-    char name[20];
-    int part;
-    int cheg;
-    char status[20];
+  if(!(voofile = fopen("voofile", "r")))
+  {
+    fprintf(stderr, "popula_db_voos(): Falha ao abrir arquivo de voos!");
+    exit(1);
+  }
+  char name[20];
+  int part;
+  int cheg;
+  char status[20];
 
-    int i = 0;
-    while((fscanf(voofile, "%s:%d:%d:%s", name, &part, &cheg, status) != EOF) || i <= 50)
-    {
-      voos[i] = novo_aviao(name, part, cheg, status);
-      i++;
-    }
-    fclose(voofile);
-    popula_assentos();
+  int i = 0;
+  while((fscanf(voofile, "%s:%d:%d:%s", name, &part, &cheg, status) != EOF) || i <= 50)
+  {
+    voos[i] = novo_aviao(name, part, cheg, status);
+    i++;
+  }
+  fclose(voofile);
+  popula_assentos();
 }
 
 void popula_assentos()

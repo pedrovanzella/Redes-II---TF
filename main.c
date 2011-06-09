@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
   if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
+    printf("Informe IP do servidor: ");
   }
 
   if(*argv[1] == 's')
