@@ -1,10 +1,10 @@
 all: trafficcontrol
 
-trafficcontrol: main.o usuario.o aviao.o socket.o
-	gcc -o trafficcontrol main.o usuario.o aviao.o socket.o
+trafficcontrol: main.o usuario.o aviao.o packet.o
+	gcc -o trafficcontrol main.o usuario.o aviao.o packet.o
 
-servidor: main.c usuario.c aviao.c socket.c
-	gcc -o servidor main.c usuario.c aviao.c socket.c
+servidor: main.c usuario.c aviao.c packet.c
+	gcc -o servidor main.c usuario.c aviao.c packet.c
 
 main.o: main.c
 	gcc -c main.c
@@ -15,8 +15,8 @@ usuario.o: usuario.c usuario.h
 aviao.o: aviao.c aviao.h
 	gcc -c aviao.c
 
-socket.o : socket.c socket.h
-	gcc -c socket.c
+packet.o : packet.c packet.h
+	gcc -c packet.c
 	
 clean:
 	rm -rf *.o trafficcontrol servidor

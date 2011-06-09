@@ -12,7 +12,7 @@
 #include <string.h>
 #include "aviao.h"
 #include "usuario.h"
-#include "socket.h"
+#include "packet.h"
 
 /****************
  * PARAMETROS:  *

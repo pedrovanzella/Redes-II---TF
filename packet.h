@@ -1,12 +1,12 @@
 /*****************************************************
- * packet.h                                          *
+ * socket.h                                          *
  * Headers das funções do socket TCP                 *
  * Catiane, Matheus da Rosa, Pedro Vanzella          *
  *                                                   *
  * REDES 2                                           *
  *****************************************************/
-#ifndef _PACKET_H
-#define _PACKET_H
+#ifndef _SOCKET_H
+#define _SOCKET_H
 
 #include "usuario.h"
 
@@ -24,4 +24,4 @@ int Cliente(Packet *p);
 int Servidor();
 int envia_cliente_server(Packet* pkt);
 
-#endif /* _PACKET_H */
+#endif /* _SOCKET_H */

@@ -11,7 +11,7 @@
 #include <string.h>     /* for memset() */
 #include <unistd.h>     /* for close() */
 
-#include "socket.h"
+#include "packet.h"
 
 #define ECHOMAX 255     /* Longest string to echo */
 
