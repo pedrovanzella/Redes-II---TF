@@ -11,7 +11,7 @@
 #include "usuario.h"
 
 extern struct usuario* users[50];
-extern FILE *usrfile;
+FILE* usrfile;
 
 struct usuario* novo_usuario(char* nome, char* senha)
 {

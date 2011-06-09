@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include "aviao.h"
 
-extern FILE *voofile;
-extern FILE *assentosfile;
+FILE* voofile;
+FILE* assentosfile;
 extern struct aviao* voos[50];
 
 struct aviao* find_by_voo(char* name)
