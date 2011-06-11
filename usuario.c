@@ -28,6 +28,7 @@ void popula_db_users()
     fprintf(stderr, "popula_db_users(): Falha ao abrir arquivo de usuarios!");
     exit(1);
   }
+  printf("aqui");
   char name[20];
   char pass[20];
   int i = 0;
@@ -61,16 +62,16 @@ void salva_user(struct usuario* usr)
 
 struct usuario* login(char* nome, char* senha)
 {
-//  struct usuario* user;
-//  user = (struct usuario*) malloc(sizeof(struct usuario));
-//  user = find_by_name(nome);
-//  if(!user) // Usuario nao existe
-//  {
-//    free(user); // Memory leak
-//    return NULL; // Se user nao existe
-//  }
-//  if(!(strcmp(user->senha, senha))) return user; // Se a senha esta certa
-//  return NULL; // Senha errada
+  struct usuario* user;
+  user = (struct usuario*) malloc(sizeof(struct usuario));
+  user = find_by_name(nome);
+  if(!user) // Usuario nao existe
+  {
+    free(user); // Memory leak
+    return NULL; // Se user nao existe
+  }
+  if(!(strcmp(user->senha, senha))) return user; // Se a senha esta certa
+  return NULL; // Senha errada
 }
 
 struct usuario* find_by_name(char* name)
