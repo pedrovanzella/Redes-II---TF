@@ -31,8 +31,27 @@ void popula_db_users()
   char name[20];
   char pass[20];
   int i = 0;
-  while((fscanf(usrfile, "%s:%s", name, pass) != EOF) || i <= 50)
+  char linha[50];
+  while((fscanf(usrfile, "%s", linha) != EOF) && i <= 50)
   {
+    int j = 0;
+    int k = 0;
+    while(linha[j] != ':')
+    {
+      name[j] = linha[j];
+      j++;
+    }
+    name[j] = '\0';
+
+    while(linha[j] != '\0')
+    {
+      pass[k] = linha[j]; 
+      j++;
+      k++;
+    }
+    pass[k] = '\0';
+
+    printf("nome: %s\tsenha: %s\n", name, pass);
     users[i] = novo_usuario(name, pass);
     i++;
   }
@@ -42,14 +61,15 @@ void popula_db_users()
 void salva_user(struct usuario* usr)
 {
   FILE* usrfile;
-  if(!(usrfile = fopen("usrfile", "a")))
+  if(!(usrfile = fopen("usrfile", "a+")))
   {
     fprintf(stderr, "salva_user(): Falha ao abrir arquivo de usuarios!");
     exit(1);
   }
   if(!find_by_name(usr->nome)) // Se usuario nao existe ainda
   {
-    fprintf(usrfile, "%s:%s", usr->nome, usr->senha);
+    fprintf(usrfile, "%s", usr->nome);
+    fprintf(usrfile, ":%s", usr->senha);
   }
   else
   {
