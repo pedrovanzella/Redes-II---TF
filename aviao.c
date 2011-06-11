@@ -21,7 +21,7 @@ struct aviao* find_by_voo(char* name)
 
 void popula_db_voos()
 {
-  if(!(voofile = fopen("voofile", "r")))
+  if(!(voofile = fopen("voofile", "r+")))
   {
     fprintf(stderr, "popula_db_voos(): Falha ao abrir arquivo de voos!");
     exit(1);
@@ -30,10 +30,57 @@ void popula_db_voos()
   int part;
   int cheg;
   char status[20];
+  char tmp[10];
 
   int i = 0;
-  while((fscanf(voofile, "%s:%d:%d:%s", name, &part, &cheg, status) != EOF) || i <= 50)
+  char linha[200];
+  while((fscanf(voofile, "%s", linha) != -1) && i <= 50)
   {
+    /* achar nome */
+    int j = 0;
+    while(linha[j] != ':')
+    {
+      name[j] = linha[j];
+      j++;
+    }
+    name[j] = '\0';
+
+    /* achar partida */
+    int k = 0;
+    j++;
+    while(linha[j] != ':')
+    {
+      tmp[k] == linha[j];
+      j++;
+      k++;
+    }
+    tmp[k] = '\0';
+    part = atoi(tmp);
+
+    /* achar chegada */
+    k = 0;
+    j++;
+    while(linha[j] != ':')
+    {
+      tmp[k] = linha[j];
+      j++;
+      k++;
+    }
+    tmp[k] = '\0';
+    cheg = atoi(tmp);
+
+    /* achar status */
+    k = 0;
+    j++;
+    while(linha[j] != '\0')
+    {
+      status[k] = linha[j];
+      j++;
+      k++;
+    }
+    status[k] = '\0';
+
+    printf("nome: %s\tpartida: %d\tchegada: %d\tstatus: %s\n", name, part, cheg, status);
     voos[i] = novo_aviao(name, part, cheg, status);
     i++;
   }
@@ -43,7 +90,7 @@ void popula_db_voos()
 
 void popula_assentos()
 {
-  if(!(assentosfile = fopen("assentosfile", "r")))
+  if(!(assentosfile = fopen("assentosfile", "r+")))
   {
     fprintf(stderr, "popula_assentos(): Falha ao abrir arquivo de assentos!");
     exit(1);

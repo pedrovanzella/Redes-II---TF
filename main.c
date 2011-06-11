@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 //	  return;  
     /* MODO SERVIDOR */
     popula_db_users();
+    popula_db_voos();
     /* inicia banco do servidor, lendo arquivo de avioes */
        /* Pede por login */
     char user[20];
