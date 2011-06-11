@@ -11,12 +11,14 @@
 #include "usuario.h"
 
 extern struct usuario* users[50];
+int users_total;
 
 struct usuario* novo_usuario(char* nome, char* senha)
 {
   struct usuario* usr = (struct usuario*)malloc(sizeof(struct usuario));
   strcpy(usr->nome, nome);
   strcpy(usr->senha, senha);
+  users_total++;
   return usr;
 }
 
@@ -28,6 +30,7 @@ void popula_db_users()
     fprintf(stderr, "popula_db_users(): Falha ao abrir arquivo de usuarios!");
     exit(1);
   }
+  users_total = 0;
   char name[20];
   char pass[20];
   int i = 0;
@@ -97,7 +100,7 @@ struct usuario* login(char* nome, char* senha)
 struct usuario* find_by_name(char* name)
 {
   int i;
-  for(i = 0; i <= 50; i++)
+  for(i = 0; i < users_total; i++)
   {
     if(!(strcmp(users[i]->nome, name))) 
     {
