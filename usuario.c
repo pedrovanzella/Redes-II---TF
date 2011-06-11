@@ -32,7 +32,8 @@ void popula_db_users()
   char pass[20];
   int i = 0;
   char linha[50];
-  while((fscanf(usrfile, "%s", linha) != EOF) && i <= 50)
+  int tmp;
+  while(((tmp = fscanf(usrfile, "%s", linha)) != -1) && i <= 50)
   {
     int j = 0;
     int k = 0;
@@ -41,8 +42,9 @@ void popula_db_users()
       name[j] = linha[j];
       j++;
     }
-    name[j] = '\0';
+    name[j] = '\0'; //Termina a string para o proximo loop
 
+    j++; // Avancar os :
     while(linha[j] != '\0')
     {
       pass[k] = linha[j]; 
