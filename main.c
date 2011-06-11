@@ -53,8 +53,8 @@ int main(int argc, char* argv[])
     popula_db_users();
     /* inicia banco do servidor, lendo arquivo de avioes */
        /* Pede por login */
-    char* user;
-    char* pass;
+    char user[20];
+    char pass[20];
     if(login(user, pass))
     {
       /* Usuario logado */ 
@@ -70,13 +70,12 @@ int main(int argc, char* argv[])
           break;
       }
     }
-    else /* parametro errado */
-    {
-      fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente\n", *argv[1]);
-      return 1;
-    }
   }
-
+  else /* parametro errado */
+  {
+    fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente\n", *argv[1]);
+    return 1;
+  }
 
   return 0;
 }
