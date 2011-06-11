@@ -46,6 +46,7 @@ void popula_db_voos()
     name[j] = '\0';
 
     /* achar partida */
+    /* TODO: BUG!! Primeiro sempre fica zero? */
     int k = 0;
     j++;
     while(linha[j] != ':')
