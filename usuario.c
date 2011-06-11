@@ -32,8 +32,7 @@ void popula_db_users()
   char pass[20];
   int i = 0;
   char linha[50];
-  int tmp;
-  while(((tmp = fscanf(usrfile, "%s", linha)) != -1) && i <= 50)
+  while(((fscanf(usrfile, "%s", linha)) != -1) && i <= 50)
   {
     int j = 0;
     int k = 0;

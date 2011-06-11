@@ -55,6 +55,8 @@ int main(int argc, char* argv[])
        /* Pede por login */
     char user[20];
     char pass[20];
+    strcpy(user, "abs");
+    strcpy(pass, "blz");
     if(login(user, pass))
     {
       /* Usuario logado */ 
