@@ -122,55 +122,6 @@ void popula_assentos()
 
   while((fscanf(assentosfile, "%s", linha) != -1)) 
   {
-    int i = 0;
-
-    while(linha[i] != ' ')
-    {
-      nome[i] = linha[i];
-      i++;
-    }
-    nome[i] = '\0'; // Termina a string para deixar ela limpa
-    i++; // Pula o espaco
-    av = find_by_voo(nome);
-
-    if(!av)
-    {
-      fprintf(stderr, "Voo nao encontrado (%s)\n", nome);
-      continue;
-    }
-    printf("\t[x] Voo: %s\n", av->nome);
-
-    /* Copiar assentos */
-    while(linha[i] != '\0')
-    {
-      /* achar numero do assento */ 
-      int j = 0;
-      while(linha[i] != ':')
-      {
-        tmp[j] = linha[i]; 
-        i++;
-        j++;
-      }
-      tmp[j] = '\0'; // Limpa o fim
-      ass = atoi(tmp);
-      printf("\t\t[%d] ", ass);
-
-      /* achar o nome do passageiro */
-      i++; // Passa os :
-      j = 0; // Reseta o contador
-      while(linha[i] != ' ')
-      {
-        pass[j] = linha[i];
-        i++;
-        j++;
-      }
-      pass[j] = '\0'; // Limpa a string
-      printf("%s\n", pass);
-      i++; // Passa o espaco pasa a proxima iteracao
-
-      /* Copia o nome do passageiro para o assento */
-      strcpy(av->assentos[ass], pass);
-    }
 
   }
 }
