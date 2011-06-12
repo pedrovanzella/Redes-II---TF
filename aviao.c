@@ -94,7 +94,7 @@ void popula_db_voos()
     }
     status[k] = '\0';
 
-    printf("\tNome: %s\t\tPartida: %d\tChegada: %d\tStatus: %s\n", name, part, cheg, status);
+    printf("\tNome: %s\t\tPartida: %4d\tChegada: %4d\tStatus: %s\n", name, part, cheg, status);
     voos[i] = novo_aviao(name, part, cheg, status);
     i++;
     voostotal++;
@@ -123,7 +123,7 @@ void popula_assentos()
   while((fscanf(assentosfile, "%s", linha) != -1)) 
   {
     int i = 0;
-    /* Copiar nome do voo */
+
     while(linha[i] != ' ')
     {
       nome[i] = linha[i];
@@ -133,7 +133,12 @@ void popula_assentos()
     i++; // Pula o espaco
     av = find_by_voo(nome);
 
-    printf("\t[x] Voo: %s\n", nome);
+    if(!av)
+    {
+      fprintf(stderr, "Voo nao encontrado (%s)\n", nome);
+      continue;
+    }
+    printf("\t[x] Voo: %s\n", av->nome);
 
     /* Copiar assentos */
     while(linha[i] != '\0')
@@ -166,9 +171,8 @@ void popula_assentos()
       /* Copia o nome do passageiro para o assento */
       strcpy(av->assentos[ass], pass);
     }
-  
-  }
 
+  }
 }
 
 void salva_voo(struct aviao* voo)
