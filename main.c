@@ -76,13 +76,19 @@ int main(int argc, char* argv[])
     scanf("%s", usr->senha);
     pkt->operacao = 1; // Pedido de Login
     envia_cliente_server(pkt);
+
+    /********************* Espera servidor *********************/
   }
 
   else if(*argv[1] == 's')
   {
     /* MODO SERVIDOR */
+    /********************* INICIALIZAR *********************/
     popula_db_users();
     popula_db_voos();
+
+    /********************* Espera cliente *********************/
+
   }
 
   else /* parametro errado */
