@@ -110,7 +110,7 @@ void popula_assentos()
     fprintf(stderr, "popula_assentos(): Falha ao abrir arquivo de assentos!");
     exit(1);
   }
-  char linha[20000];
+  char linha[200];
   char nome[20];
   int ass;
   char pass[20];
@@ -122,6 +122,49 @@ void popula_assentos()
 
   while((fscanf(assentosfile, "%s", linha) != -1)) 
   {
+    int i = 0;
+    /* Achar nome do voo */
+    while(linha[i] != ':')
+    {
+      nome[i] = linha[i];
+      i++;
+    }
+    nome[i] = '\0';
+    i++; // Pular os :
+
+    av = find_by_voo(nome);
+    if(!av)
+    {
+      fprintf(stderr, "popula_assentos(): Aviao nao encontrado (%s)\n", nome);
+      continue;
+    }
+    printf("\tVoo: %s\n", av->nome);
+
+    /* Achar numero do assento */
+    int j = 0;
+    while(linha[i] != ':')
+    {
+      tmp[j] = linha[i];
+      i++;
+      j++;
+    }
+    tmp[j] = '\0'; // Limpar
+    ass = atoi(tmp);
+    i++; // Pular os :
+    printf("\t\t[%3d] ", ass);
+
+    /* Achar passageiro */
+    j = 0;
+    while(linha[i] != '\0')
+    {
+      pass[j] = linha[i];
+      i++;
+      j++;
+    }
+    pass[j] = '\0'; // Limpar fim da string
+    printf("%s\n", pass);
+
+    strcpy(av->assentos[ass], pass); // Aloca assento
 
   }
 }
