@@ -12,6 +12,7 @@
 #include <unistd.h>     /* for close() */
 
 #include "packet.h"
+#include "usuario.h"
 
 #define ECHOMAX 255     /* Longest string to echo */
 
@@ -23,9 +24,30 @@ void DieWithError(char *errorMessage)
 int envia_cliente_server(Packet* pkt)
 {
   /* TODO */
-  printf("envia_cliente_servidor(): enviando\n");
-  printf("operacao: %d\n", pkt->operacao);
-  printf("IP: %s\n", pkt->IP);
+  printf("\n\e[1m\e[32menvia_cliente_servidor(): enviando\e[0m\n");
+  printf("\toperacao: %d\n", pkt->operacao);
+  printf("\tIP: %s\n", pkt->IP);
+
+  printf("\tUsuario:\n");
+  printf("\t\tNome:\t%s\n", pkt->usr->nome);
+  printf("\t\tSenha:\t%s\n", pkt->usr->senha);
+
+  printf("\tAviao:\n");
+  printf("\t\tNome:\t%s\n", pkt->voo->nome);
+  printf("\t\tPartida:\t%4d\n", pkt->voo->partida);
+  printf("\t\tChegada:\t%4d\n", pkt->voo->chegada);
+  printf("\t\tStatus:\t%s\n", pkt->voo->status);
+
+  printf("\t\tAssentos alocados:\n");
+  int i;
+  for(i = 0; i <= 150; i++)
+  {
+    if(pkt->voo->assentos[i][0] != '\0')
+    {
+      printf("\t\t\t[%3d] %s\n", i, pkt->voo->assentos[i]);
+    }
+  }
+  printf("\n");
 }
 
 int Cliente(Packet *p)

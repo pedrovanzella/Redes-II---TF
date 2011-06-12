@@ -9,10 +9,11 @@
 #define _PACKET_H
 
 #include "usuario.h"
+#include "aviao.h"
 
 /********** OPERACOES *****************/
-/* 1 - Pedido de Login */
-/* 2 - Pedido de conexao */
+/* 1 - Pedido de Login                */
+/* 2 - Pedido de conexao              */
 
 typedef struct {
   char operacao;
