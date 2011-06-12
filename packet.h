@@ -20,7 +20,7 @@ typedef struct {
 } Packet;
 
 void DieWithError(char *errorMessage);  /* External error handling function */
-int Cliente(Packet *p);
+int Cliente();
 int Servidor();
 int envia_cliente_server(Packet* pkt);
 

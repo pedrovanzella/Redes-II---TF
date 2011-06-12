@@ -17,19 +17,11 @@
 
 void DieWithError(char *errorMessage)
 {
-	/* TODO */
+	printf("Erro: %s\n",errorMessage);
 }
 
 int envia_cliente_server(Packet* pkt)
-{
-  /* TODO */
-  printf("envia_cliente_servidor(): enviando\n");
-  printf("operacao: %d\n", pkt->operacao);
-  printf("IP: %s\n", pkt->IP);
-}
-
-int Cliente(Packet *p)
-{
+{	
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
     struct sockaddr_in fromAddr;     /* Source address of echo */
@@ -41,8 +33,13 @@ int Cliente(Packet *p)
     int echoStringLen;               /* Length of string to echo */
     int respStringLen;               /* Length of received response */
 	
-    servIP = "10.37.129.4";           /* First arg: server IP address (dotted quad) */
-    echoString = "Teste";       /* Second arg: string to echo */
+	/* TODO */
+	printf("envia_cliente_servidor(): enviando\n");
+	printf("operacao: %d\n", pkt->operacao);
+	printf("IP: %s\n", pkt->IP);	
+	
+	servIP = pkt->IP;           /* First arg: server IP address (dotted quad) */
+    echoString = pkt;       /* Second arg: string to echo */
 	
     if ((echoStringLen = strlen(echoString)) > ECHOMAX)  /* Check input length */
         DieWithError("Echo word too long");
@@ -62,7 +59,6 @@ int Cliente(Packet *p)
     echoServAddr.sin_addr.s_addr = inet_addr(servIP);  /* Server IP address */
     echoServAddr.sin_port   = htons(echoServPort);     /* Server port */
 	
-	printf("To aqui\n");
     /* Send the string to the server */
     if (sendto(sock, echoString, echoStringLen, 0, (struct sockaddr *)
                &echoServAddr, sizeof(echoServAddr)) != echoStringLen)
@@ -97,6 +93,7 @@ int Servidor()
     char echoBuffer[ECHOMAX];        /* Buffer for echo string */
     unsigned short echoServPort;     /* Server port */
     int recvMsgSize;                 /* Size of received message */
+	Packet *p;
 	
     echoServPort = 7;  /* First arg:  local port */
 	
@@ -123,6 +120,14 @@ int Servidor()
         if ((recvMsgSize = recvfrom(sock, echoBuffer, ECHOMAX, 0,
 									(struct sockaddr *) &echoClntAddr, &cliAddrLen)) < 0)
             DieWithError("recvfrom() failed");
+		
+		if (recvMsgSize >0) {
+			printf("Recebi pacote = %s\n",echoBuffer);
+		}
+		
+		p = (Packet*)echoBuffer;
+		
+		printf("IP = %s\n",p->IP);
 		
         printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
 		
