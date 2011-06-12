@@ -171,6 +171,24 @@ void popula_assentos()
 
 void salva_voo(struct aviao* voo)
 {
+  if(!(voofile = fopen("voofile", "a+")))
+  {
+    fprintf(stderr, "salva_voo(): Falha ao abrir arquivo de voos!");
+    exit(1);
+  }
+  fprintf(voofile, "%s:%d:%d:%s", voo->nome, voo->partida, voo->chegada, voo->status);
+  fclose(voofile);
+}
+
+void salva_assento(char* voo, int ass, char* pass)
+{
+  if(!(assentosfile = fopen("assentosfile", "a+")))
+  {
+    fprintf(stderr, "salva_assento(): Falha ao abrir arquivo de assentos!");
+    exit(1);
+  }
+  fprintf(assentosfile, "%s:%d:%s", voo, ass, pass);
+  fclose(assentosfile);
 }
 
 struct aviao* novo_aviao(char* n, int p, int c, char* s)
