@@ -35,6 +35,9 @@ void popula_db_users()
   char pass[20];
   int i = 0;
   char linha[50];
+
+  printf("\n\e[1m\e[32mPopulando DB de usuarios...\e[0m\n");
+
   while(((fscanf(usrfile, "%s", linha)) != -1) && i <= 50)
   {
     int j = 0;
@@ -55,7 +58,7 @@ void popula_db_users()
     }
     pass[k] = '\0';
 
-    printf("nome: %s\tsenha: %s\n", name, pass);
+    printf("\tNome: %s\t\tSenha: %s\n", name, pass);
     users[i] = novo_usuario(name, pass);
     i++;
   }
