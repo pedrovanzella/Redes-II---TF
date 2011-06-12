@@ -33,16 +33,24 @@ int main(int argc, char* argv[])
   if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
+
+    /********************* CONEXAO *********************/
     printf("Informe IP do servidor: ");
-    char ipserver[20];
-    scanf("%s", ipserver);
     /* TODO: Verificar validade do formato! */
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
-    pkt->IP = (char*)malloc(sizeof(ipserver));
-    strcpy(pkt->IP, ipserver);
+    scanf("%s", pkt->IP);
     pkt->operacao = 2; // Pedido de conexao
     envia_cliente_server(pkt);
+
+    /********************* Log in *********************/
+    printf("Informe credenciais (caso nao tenha, informe mesmo assim que serao salvas)\n");
+    struct usuario* usr;
+    usr = (struct usuario*)malloc(sizeof(struct usuario));
+    printf("login: ");
+    scanf("%s", usr->nome);
+    printf("senha: ");
+    scanf("%s", usr->senha);
   }
 
   if(*argv[1] == 's')

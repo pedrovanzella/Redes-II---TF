@@ -1,12 +1,12 @@
 /*****************************************************
- * socket.h                                          *
+ * packet.h                                          *
  * Headers das funções do socket TCP                 *
  * Catiane, Matheus da Rosa, Pedro Vanzella          *
  *                                                   *
  * REDES 2                                           *
  *****************************************************/
-#ifndef _SOCKET_H
-#define _SOCKET_H
+#ifndef _PACKET_H
+#define _PACKET_H
 
 #include "usuario.h"
 
@@ -16,7 +16,9 @@
 
 typedef struct {
   char operacao;
-  char* IP;
+  char IP[20];
+  struct usuario* usr;
+  struct aviao* voo;
 } Packet;
 
 void DieWithError(char *errorMessage);  /* External error handling function */
@@ -24,4 +26,4 @@ int Cliente(Packet *p);
 int Servidor();
 int envia_cliente_server(Packet* pkt);
 
-#endif /* _SOCKET_H */
+#endif /* _PACKET_H */
