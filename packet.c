@@ -25,7 +25,7 @@ int envia_cliente_server(Packet* pkt)
 {
   /* TODO */
   printf("\n\e[1m\e[32menvia_cliente_servidor(): enviando\e[0m\n");
-  printf("\toperacao: %d\n", pkt->operacao);
+  printf("\tOperacao: %d\n", pkt->operacao);
   printf("\tIP: %s\n", pkt->IP);
 
   printf("\tUsuario:\n");
