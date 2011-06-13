@@ -31,12 +31,11 @@ void HandleTCPClient(int clntSocket)
     /* Receive message from client */
     if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
         DieWithError("recv() failed");
+	/* echoBuffer retornado do cliente */
 	
-	strcpy(pktTCP.str, echoBuffer);
-	//strcpy(pktTCP.pkt.usr.nome, "Matheus");
+	/* Trata buffer */
 	
-	printf("user = %s\n", echoBuffer);
-
+	/* Altera buffer */
 	
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
@@ -48,12 +47,11 @@ void HandleTCPClient(int clntSocket)
         /* See if there is more data to receive */
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
-    }
-	
+    }	
     close(clntSocket);    /* Close client socket */
 }
 
-Packet *envia_cliente_server(Packet* pkt)
+char *envia_cliente_server(Packet *pkt)
 {
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
@@ -65,40 +63,8 @@ Packet *envia_cliente_server(Packet* pkt)
     int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
 										and total bytes read */
 	
-	/* TODO */
-	/*printf("\n\e[1m\e[32menvia_cliente_servidor(): enviando\e[0m\n");
-	printf("\tOperacao: %d\n", pkt->operacao);
-	printf("\tIP: %s\n", pkt->IP);
-	
-	printf("\tUsuario:\n");
-	printf("\t\tNome:\t%s\n", pkt.usr.nome);
-	printf("\t\tSenha:\t%s\n", pkt.usr->senha);
-	
-	printf("\tAviao:\n");
-	printf("\t\tNome:\t%s\n", pkt.voo->nome);
-	printf("\t\tPartida:\t%4d\n", pkt.voo->partida);
-	printf("\t\tChegada:\t%4d\n", pkt.voo->chegada);
-	printf("\t\tStatus:\t%s\n", pkt.voo->status);
-	
-	printf("\t\tAssentos alocados:\n");
-	int i;
-	for(i = 0; i <= 150; i++)
-	{
-		if(pkt->voo->assentos[i][0] != '\0')
-		{
-			printf("\t\t\t[%3d] %s\n", i, pkt->voo->assentos[i]);
-		}
-	}*/
-	printf("\n");
-	
-	//pkt[25] = ;
-	
-	//strcpy(pktTCP.pkt.usr.nome, "Matheus");
-	
 	servIP = pkt -> IP;             /* First arg: server IP address (dotted quad) */
-    echoString = "Teste";         /* Second arg: string to echo */
-
-	
+    echoString = pkt;         /* Second arg: string to echo */
 	
 	echoServPort = 7;  /* 7 is the well-known port for the echo service */
 	
@@ -143,6 +109,8 @@ Packet *envia_cliente_server(Packet* pkt)
     printf("\n");    /* Print a final linefeed */
 	
     close(sock);
+	
+	return *echoBuffer;
 	
 }
 

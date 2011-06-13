@@ -36,30 +36,33 @@ int main(int argc, char* argv[])
     /********************* INICIALIZAR *********************/
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
-    struct usuario usr;
-    //usr = (struct usuario*)malloc(sizeof(struct usuario));
-    struct aviao voo;
-    //voo = (struct aviao*)malloc(sizeof(struct aviao));
+    struct usuario *usr;
+    usr = (struct usuario*)malloc(sizeof(struct usuario));
+    struct aviao *voo;
+    voo = (struct aviao*)malloc(sizeof(struct aviao));
 
-    pkt->operacao   = 0;
-    pkt->IP[0]      = '\0';
+    pktTCP.pkt.operacao   = 0;
+    pktTCP.pkt.IP[0]      = '\0';
 
-    usr.nome[0]    = '\0';
-    usr.senha[0]   = '\0';
+    usr->nome[0]    = '\0';
+    usr->senha[0]   = '\0';
 
-    voo.nome[0]    = '\0';
-    voo.partida    = 0;
-    voo.chegada    = 0;
-    voo.status[0]  = '\0';
+    voo->nome[0]    = '\0';
+    voo->partida    = 0;
+    voo->chegada    = 0;
+    voo->status[0]  = '\0';
 
     int i;
     for(i = 0; i <= 150; i++)
     {
-      voo.assentos[i][0] = '\0';
+      voo->assentos[i][0] = '\0';
     }
 
-	pkt->usr = usr;
-    pkt->voo = voo;
+	strcpy(pktTCP.pkt.nome, usr->nome);
+	strcpy(pktTCP.pkt.senha, usr->senha);
+	
+	//pkt->usr = usr;
+    //pkt->voo = voo;
 
     /********************* CONEXAO *********************/
     printf("Informe IP do servidor: ");
@@ -71,9 +74,9 @@ int main(int argc, char* argv[])
     /********************* Log in *********************/
     printf("Informe credenciais (caso nao tenha, informe mesmo assim que serao salvas)\n");
     printf("login: ");
-    scanf("%s", usr.nome);
+    scanf("%s", usr->nome);
     printf("senha: ");
-    scanf("%s", usr.senha);
+    scanf("%s", usr->senha);
     pkt->operacao = 1; // Pedido de Login
     envia_cliente_server(pkt);
 
