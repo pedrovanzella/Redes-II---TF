@@ -18,8 +18,8 @@
 typedef struct {
   char operacao;
   char IP[20];
-  struct usuario* usr;
-  struct aviao* voo;
+  struct usuario usr;
+  struct aviao voo;
 } Packet;
 
 void DieWithError(char *errorMessage);  /* External error handling function */

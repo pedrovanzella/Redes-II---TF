@@ -29,22 +29,22 @@ int envia_cliente_server(Packet* pkt)
   printf("\tIP: %s\n", pkt->IP);
 
   printf("\tUsuario:\n");
-  printf("\t\tNome:\t%s\n", pkt->usr->nome);
-  printf("\t\tSenha:\t%s\n", pkt->usr->senha);
+  printf("\t\tNome:\t%s\n", pkt->usr.nome);
+  printf("\t\tSenha:\t%s\n", pkt->usr.senha);
 
   printf("\tAviao:\n");
-  printf("\t\tNome:\t%s\n", pkt->voo->nome);
-  printf("\t\tPartida:\t%4d\n", pkt->voo->partida);
-  printf("\t\tChegada:\t%4d\n", pkt->voo->chegada);
-  printf("\t\tStatus:\t%s\n", pkt->voo->status);
+  printf("\t\tNome:\t%s\n", pkt->voo.nome);
+  printf("\t\tPartida:\t%4d\n", pkt->voo.partida);
+  printf("\t\tChegada:\t%4d\n", pkt->voo.chegada);
+  printf("\t\tStatus:\t%s\n", pkt->voo.status);
 
   printf("\t\tAssentos alocados:\n");
   int i;
   for(i = 0; i <= 150; i++)
   {
-    if(pkt->voo->assentos[i][0] != '\0')
+    if(pkt->voo.assentos[i][0] != '\0')
     {
-      printf("\t\t\t[%3d] %s\n", i, pkt->voo->assentos[i]);
+      printf("\t\t\t[%3d] %s\n", i, pkt->voo.assentos[i]);
     }
   }
   printf("\n");
