@@ -14,16 +14,27 @@
 #include "packet.h"
 #include "usuario.h"
 
-#define ECHOMAX 255     /* Longest string to echo */
+#define RCVBUFSIZE 3000
+#define MAXPENDING 5  
 
 void DieWithError(char *errorMessage)
 {
-	/* TODO */
+	printf("Erro: %s\n",errorMessage);
 }
 
-int envia_cliente_server(Packet* pkt)
+void HandleTCPClient(int clntSocket)
 {
-  /* TODO */
+    char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
+    int recvMsgSize,i=0;                    /* Size of received message */
+	Packet *pkt;
+	
+    /* Receive message from client */
+    if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
+        DieWithError("recv() failed");
+	/* echoBuffer retornado do cliente */
+	
+	/* Trata buffer */
+    /*
   printf("\n\e[1m\e[32menvia_cliente_servidor(): enviando\e[0m\n");
   printf("\tOperacao: %d\n", pkt->operacao);
   printf("\tIP: %s\n", pkt->IP);
@@ -48,82 +59,101 @@ int envia_cliente_server(Packet* pkt)
     }
   }
   printf("\n");
+  */
+
+	
+	/* Altera buffer */
+	
+    /* Send received string and receive again until end of transmission */
+    while (recvMsgSize > 0)      /* zero indicates end of transmission */
+    {
+        /* Echo message back to client */
+        if (send(clntSocket, echoBuffer, recvMsgSize, 0) != recvMsgSize)
+            DieWithError("send() failed");
+		
+        /* See if there is more data to receive */
+        if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
+            DieWithError("recv() failed");
+    }	
+    close(clntSocket);    /* Close client socket */
 }
 
-int Cliente(Packet *p)
+char *envia_cliente_server(Packet *pkt)
 {
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
-    struct sockaddr_in fromAddr;     /* Source address of echo */
     unsigned short echoServPort;     /* Echo server port */
-    unsigned int fromSize;           /* In-out of address size for recvfrom() */
-    char *servIP;                    /* IP address of server */
+    char *servIP;                    /* Server IP address (dotted quad) */
     char *echoString;                /* String to send to echo server */
-    char echoBuffer[ECHOMAX+1];      /* Buffer for receiving echoed string */
-    int echoStringLen;               /* Length of string to echo */
-    int respStringLen;               /* Length of received response */
+    char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
+    unsigned int echoStringLen;      /* Length of string to echo */
+    int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
+										and total bytes read */
 	
-    servIP = "10.37.129.4";           /* First arg: server IP address (dotted quad) */
-    echoString = "Teste";       /* Second arg: string to echo */
+	servIP = pkt -> IP;             /* First arg: server IP address (dotted quad) */
+    //echoString = pkt;         /* Second arg: string to echo */
 	
-    if ((echoStringLen = strlen(echoString)) > ECHOMAX)  /* Check input length */
-        DieWithError("Echo word too long");
-	
-    /* if (argc == 4)
-        echoServPort = atoi(argv[3]);  /* Use given port, if any *
-    else */
 	echoServPort = 7;  /* 7 is the well-known port for the echo service */
 	
-    /* Create a datagram/UDP socket */
-    if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    /* Create a reliable, stream socket using TCP */
+    if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         DieWithError("socket() failed");
 	
     /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));    /* Zero out structure */
-    echoServAddr.sin_family = AF_INET;                 /* Internet addr family */
-    echoServAddr.sin_addr.s_addr = inet_addr(servIP);  /* Server IP address */
-    echoServAddr.sin_port   = htons(echoServPort);     /* Server port */
+    memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
+    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
+    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
 	
-	printf("To aqui\n");
+    /* Establish the connection to the echo server */
+    if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+        DieWithError("connect() failed");
+	
+    echoStringLen = strlen(echoString);          /* Determine input length */
+	
     /* Send the string to the server */
-    if (sendto(sock, echoString, echoStringLen, 0, (struct sockaddr *)
-               &echoServAddr, sizeof(echoServAddr)) != echoStringLen)
-        DieWithError("sendto() sent a different number of bytes than expected");
+    if (send(sock, echoString, echoStringLen, 0) != echoStringLen)
+        DieWithError("send() sent a different number of bytes than expected");
 	
-    /* Recv a response */
-    fromSize = sizeof(fromAddr);
-    if ((respStringLen = recvfrom(sock, echoBuffer, ECHOMAX, 0, 
-								  (struct sockaddr *) &fromAddr, &fromSize)) != echoStringLen)
-        DieWithError("recvfrom() failed");
-	
-    if (echoServAddr.sin_addr.s_addr != fromAddr.sin_addr.s_addr)
+    /* Receive the same string back from the server */
+    totalBytesRcvd = 0;
+    printf("Received: ");                /* Setup to print the echoed string */
+    while (totalBytesRcvd < echoStringLen)
     {
-        fprintf(stderr,"Error: received a packet from unknown source.\n");
-        exit(1);
+        /* Receive up to the buffer size (minus 1 to leave space for
+		 a null terminator) bytes from the sender */
+        if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
+            DieWithError("recv() failed or connection closed prematurely");
+        totalBytesRcvd += bytesRcvd;   /* Keep tally of total bytes */
+        echoBuffer[bytesRcvd] = '\0';  /* Terminate the string! */
+        
+		
+		
+		
+		printf("%s", echoBuffer);      /* Print the echo buffer */
     }
 	
-    /* null-terminate the received data */
-    echoBuffer[respStringLen] = '\0';
-    printf("Received: %s\n", echoBuffer);    /* Print the echoed arg */
-    
+    printf("\n");    /* Print a final linefeed */
+	
     close(sock);
-    exit(0);
+	
+//	return *echoBuffer;
+	
 }
 
-int Servidor()
+void servidor()
 {
-    int sock;                        /* Socket */
+	int servSock;                    /* Socket descriptor for server */
+    int clntSock;                    /* Socket descriptor for client */
     struct sockaddr_in echoServAddr; /* Local address */
     struct sockaddr_in echoClntAddr; /* Client address */
-    unsigned int cliAddrLen;         /* Length of incoming message */
-    char echoBuffer[ECHOMAX];        /* Buffer for echo string */
     unsigned short echoServPort;     /* Server port */
-    int recvMsgSize;                 /* Size of received message */
+    unsigned int clntLen;            /* Length of client address data structure */
 	
     echoServPort = 7;  /* First arg:  local port */
 	
-    /* Create socket for sending/receiving datagrams */
-    if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    /* Create socket for incoming connections */
+    if ((servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         DieWithError("socket() failed");
 	
     /* Construct local address structure */
@@ -133,25 +163,28 @@ int Servidor()
     echoServAddr.sin_port = htons(echoServPort);      /* Local port */
 	
     /* Bind to the local address */
-    if (bind(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+    if (bind(servSock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("bind() failed");
+	
+    /* Mark the socket so it will listen for incoming connections */
+    if (listen(servSock, MAXPENDING) < 0)
+        DieWithError("listen() failed");
 	
     for (;;) /* Run forever */
     {
         /* Set the size of the in-out parameter */
-        cliAddrLen = sizeof(echoClntAddr);
+        clntLen = sizeof(echoClntAddr);
 		
-        /* Block until receive message from a client */
-        if ((recvMsgSize = recvfrom(sock, echoBuffer, ECHOMAX, 0,
-									(struct sockaddr *) &echoClntAddr, &cliAddrLen)) < 0)
-            DieWithError("recvfrom() failed");
+        /* Wait for a client to connect */
+        if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, 
+                               &clntLen)) < 0)
+            DieWithError("accept() failed");
 		
-        printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
+        /* clntSock is connected to a client! */
 		
-        /* Send received datagram back to the client */
-        if (sendto(sock, echoBuffer, recvMsgSize, 0, 
-				   (struct sockaddr *) &echoClntAddr, sizeof(echoClntAddr)) != recvMsgSize)
-            DieWithError("sendto() sent a different number of bytes than expected");
+        //printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
+		
+        HandleTCPClient(clntSock);
     }
     /* NOT REACHED */
 }

@@ -22,9 +22,10 @@ typedef struct {
   struct aviao voo;
 } Packet;
 
+
 void DieWithError(char *errorMessage);  /* External error handling function */
-int Cliente(Packet *p);
-int Servidor();
-int envia_cliente_server(Packet* pkt);
+void servidor();
+char *envia_cliente_server(Packet* pkt);
+void HandleTCPClient(int clntSocket);
 
 #endif /* _PACKET_H */

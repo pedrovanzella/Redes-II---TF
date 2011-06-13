@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
     /********************* INICIALIZAR *********************/
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
+    memset(pkt, '\0', sizeof(Packet));
 
     /********************* CONEXAO *********************/
     printf("Informe IP do servidor: ");
@@ -60,10 +61,11 @@ int main(int argc, char* argv[])
   {
     /* MODO SERVIDOR */
     /********************* INICIALIZAR *********************/
-    popula_db_users();
-    popula_db_voos();
+    //popula_db_users();
+    //popula_db_voos();
 
     /********************* Espera cliente *********************/
+	servidor();
 
   }
 
