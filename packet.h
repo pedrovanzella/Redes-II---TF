@@ -27,5 +27,6 @@ void DieWithError(char *errorMessage);  /* External error handling function */
 void servidor();
 char *envia_cliente_server(Packet* pkt);
 void HandleTCPClient(int clntSocket);
+void pacote_pretty_print(Packet* pkt);
 
 #endif /* _PACKET_H */

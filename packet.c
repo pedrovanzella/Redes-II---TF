@@ -22,20 +22,9 @@ void DieWithError(char *errorMessage)
 	printf("Erro: %s\n",errorMessage);
 }
 
-void HandleTCPClient(int clntSocket)
+void pacote_pretty_print(Packet* pkt)
 {
-    char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
-    int recvMsgSize,i=0;                    /* Size of received message */
-	Packet *pkt;
-	
-    /* Receive message from client */
-    if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
-        DieWithError("recv() failed");
-	/* echoBuffer retornado do cliente */
-	
-	/* Trata buffer */
-    /*
-  printf("\n\e[1m\e[32menvia_cliente_servidor(): enviando\e[0m\n");
+  printf("\n\e[1m\e[32mpacote_pretty_print(): enviando\e[0m\n");
   printf("\tOperacao: %d\n", pkt->operacao);
   printf("\tIP: %s\n", pkt->IP);
 
@@ -59,7 +48,22 @@ void HandleTCPClient(int clntSocket)
     }
   }
   printf("\n");
-  */
+}
+
+void HandleTCPClient(int clntSocket)
+{
+    char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
+    int recvMsgSize,i=0;                    /* Size of received message */
+	Packet *pkt;
+	
+    /* Receive message from client */
+    if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
+        DieWithError("recv() failed");
+	/* echoBuffer retornado do cliente */
+	
+	/* Trata buffer */
+    /*
+ */
 
 	
 	/* Altera buffer */

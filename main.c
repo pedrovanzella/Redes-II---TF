@@ -43,7 +43,8 @@ int main(int argc, char* argv[])
     /* TODO: Verificar validade do formato! */
     scanf("%s", pkt->IP);
     pkt->operacao = 2; // Pedido de conexao
-    envia_cliente_server(pkt);
+    //envia_cliente_server(pkt);
+    pacote_pretty_print(pkt);
 
     /********************* Log in *********************/
     printf("Informe credenciais (caso nao tenha, informe mesmo assim que serao salvas)\n");
@@ -61,11 +62,11 @@ int main(int argc, char* argv[])
   {
     /* MODO SERVIDOR */
     /********************* INICIALIZAR *********************/
-    //popula_db_users();
-    //popula_db_voos();
+    popula_db_users();
+    popula_db_voos();
 
     /********************* Espera cliente *********************/
-	servidor();
+    servidor();
 
   }
 
