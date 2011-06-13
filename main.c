@@ -33,50 +33,70 @@ int main(int argc, char* argv[])
   if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
-    printf("Informe IP do servidor: ");
-    char ipserver[20];
-    scanf("%s", ipserver);
-    /* TODO: Verificar validade do formato! */
+    /********************* INICIALIZAR *********************/
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
-    pkt->IP = (char*)malloc(sizeof(ipserver));
-    strcpy(pkt->IP, ipserver);
+    struct usuario usr;
+    //usr = (struct usuario*)malloc(sizeof(struct usuario));
+    struct aviao voo;
+    //voo = (struct aviao*)malloc(sizeof(struct aviao));
+
+    pkt->operacao   = 0;
+    pkt->IP[0]      = '\0';
+
+    usr.nome[0]    = '\0';
+    usr.senha[0]   = '\0';
+
+    voo.nome[0]    = '\0';
+    voo.partida    = 0;
+    voo.chegada    = 0;
+    voo.status[0]  = '\0';
+
+    int i;
+    for(i = 0; i <= 150; i++)
+    {
+      voo.assentos[i][0] = '\0';
+    }
+
+	pkt->usr = usr;
+    pkt->voo = voo;
+
+    /********************* CONEXAO *********************/
+    printf("Informe IP do servidor: ");
+    /* TODO: Verificar validade do formato! */
+    scanf("%s", pkt->IP);
     pkt->operacao = 2; // Pedido de conexao
     envia_cliente_server(pkt);
+
+    /********************* Log in *********************/
+    printf("Informe credenciais (caso nao tenha, informe mesmo assim que serao salvas)\n");
+    printf("login: ");
+    scanf("%s", usr.nome);
+    printf("senha: ");
+    scanf("%s", usr.senha);
+    pkt->operacao = 1; // Pedido de Login
+    envia_cliente_server(pkt);
+
+    /********************* Espera servidor *********************/
   }
 
-  if(*argv[1] == 's')
+  else if(*argv[1] == 's')
   {
-	Servidor();
-	  return;  
     /* MODO SERVIDOR */
-    popula_db_users();
-    /* inicia banco do servidor, lendo arquivo de avioes */
-       /* Pede por login */
-    char* user;
-    char* pass;
-    if(login(user, pass))
-    {
-      /* Usuario logado */ 
-      /* imprime prompt de comando */
-      char cmd;
-      /* grande case de opcoes */
+    /********************* INICIALIZAR *********************/
+    //popula_db_users();
+    //popula_db_voos();
 
-      switch(cmd)
-      {
-        case 'c': /* Chunky */
-          break;
-        case 'b': /* Bacon */
-          break;
-      }
-    }
-    else /* parametro errado */
-    {
-      fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente\n", *argv[1]);
-      return 1;
-    }
+    /********************* Espera cliente *********************/
+	servidor();
+
   }
 
+  else /* parametro errado */
+  {
+    fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente\n", *argv[1]);
+    return 1;
+  }
 
   return 0;
 }

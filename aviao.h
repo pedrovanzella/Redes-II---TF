@@ -25,5 +25,6 @@ struct aviao* find_by_voo(char* name);
 void popula_db_voos();
 void popula_assentos();
 void salva_voo(struct aviao* voo);
+void salva_assento(char* voo, int ass, char* pass);
 
 #endif /* _AVIAO_H */

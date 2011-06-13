@@ -16,7 +16,9 @@
 
 typedef struct {
   char operacao;
-  char* IP;
+  char IP[20];
+  struct usuario user;
+  struct aviao av;
 } Packet;
 
 void DieWithError(char *errorMessage);  /* External error handling function */
