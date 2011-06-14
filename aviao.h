@@ -10,11 +10,11 @@
 
 struct aviao
 {
-  char nome[20];
-  int partida;
-  int chegada;
-  char status[20];
-  char assentos[150][20]; /* Cada assento tem um user. 150 assentos de 20 chars */
+  char nome[20];          /* 20   bytes */
+  int partida;            /* 4    bytes */
+  int chegada;            /* 4    bytes */
+  char status[20];        /* 20   bytes */
+  int assentos[150];      /* 150  bytes */
 };
 
 struct aviao* voos[50];

@@ -10,13 +10,14 @@
 
 struct usuario
 {
-  char nome[20];
-  char senha[20];
-};
+  int id;          /* 4 bytes  */
+  char nome[20];   /* 20 bytes */
+  char senha[20];  /* 20 bytes */
+}; /* 44 bytes */
 
 struct usuario* users[50];
 
-struct usuario* novo_usuario(char* nome, char* senha);
+struct usuario* novo_usuario(int id, char* nome, char* senha);
 struct usuario* login(char* nome, char* senha); /* retorna nulo caso falhe */
 struct usuario* find_by_name(char* name);
 void popula_db_users();

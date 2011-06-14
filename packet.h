@@ -16,9 +16,9 @@
 /* 2 - Pedido de conexao              */
 
 typedef struct {
-  char operacao;
-  char IP[20];
-  struct usuario usr;
+  char operacao;         /* 1  byte  */
+  char IP[20];           /* 20 bytes */
+  struct usuario usr;    /* 40 bytes */
   struct aviao voo;
 } Packet;
 

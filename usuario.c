@@ -13,9 +13,10 @@
 extern struct usuario* users[50];
 int users_total;
 
-struct usuario* novo_usuario(char* nome, char* senha)
+struct usuario* novo_usuario(int id, char* nome, char* senha)
 {
   struct usuario* usr = (struct usuario*)malloc(sizeof(struct usuario));
+  usr->id = id;
   strcpy(usr->nome, nome);
   strcpy(usr->senha, senha);
   users_total++;
@@ -34,7 +35,9 @@ void popula_db_users()
   char name[20];
   char pass[20];
   int i = 0;
-  char linha[50];
+  char linha[60];
+  char tmp[5];
+  int id;
 
   printf("\n\e[1m\e[32mPopulando DB de usuarios...\e[0m\n");
 
@@ -44,12 +47,23 @@ void popula_db_users()
     int k = 0;
     while(linha[j] != ':')
     {
-      name[j] = linha[j];
+      tmp[j] = linha[j];
       j++;
     }
-    name[j] = '\0'; //Termina a string para o proximo loop
+    tmp[j] = '\0';
+    id = atoi(tmp);
+
+    k = 0;
+    while(linha[j] != ':')
+    {
+      name[k] = linha[j];
+      j++;
+      k++;
+    }
+    name[k] = '\0'; //Termina a string para o proximo loop
 
     j++; // Avancar os :
+    k = 0;
     while(linha[j] != '\0')
     {
       pass[k] = linha[j]; 
@@ -58,8 +72,8 @@ void popula_db_users()
     }
     pass[k] = '\0';
 
-    printf("\tNome: %s\t\tSenha: %s\n", name, pass);
-    users[i] = novo_usuario(name, pass);
+    printf("\tID: %d\tNome: %s\t\tSenha: %s\n", id, name, pass);
+    users[i] = novo_usuario(id, name, pass);
     i++;
   }
   fclose(usrfile);
@@ -75,8 +89,7 @@ void salva_user(struct usuario* usr)
   }
   if(!find_by_name(usr->nome)) // Se usuario nao existe ainda
   {
-    fprintf(usrfile, "%s", usr->nome);
-    fprintf(usrfile, ":%s", usr->senha);
+    fprintf(usrfile, "%d:%s:%s", usr->id, usr->nome, usr->senha);
   }
   else
   {
