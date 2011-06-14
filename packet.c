@@ -97,6 +97,14 @@ void Cliente()
       case 0: // HELLO
         printf("HELLO>\n> ");
         break;
+      case 2: // LOGIN FALHOU
+        pkt->operacao = 1; // Pedido de login
+        printf("LOGIN> ");
+        scanf("%s", pkt->usr.nome);
+        printf("SENHA> ");
+        scanf("%s", pkt->usr.senha);
+        send(sock, buffer, sizeof(buffer), 0); 
+        break;
       case 4: // FALHA
         printf("FALHA>\n> ");
         break;
@@ -211,6 +219,15 @@ void Servidor()
       switch(pkt->operacao)
       {
         case 1: // Pedido de Login
+          if(login(pkt->usr.nome, pkt->usr.senha))
+          {
+            pkt->operacao = 3; // SUCESSO!
+          }
+          else
+          {
+            pkt->operacao = 2; // Falha de login
+          }
+          send(connected, buffer,strlen(buffer), 0);  
           break;
         case 5: // Pedido de reserva
           break;
@@ -219,35 +236,6 @@ void Servidor()
         default:
           break;
       }
-      printf("\n SEND (q or Q to quit) : ");
-      gets(buffer);
-
-      if (strcmp(buffer , "q") == 0 || strcmp(buffer , "Q") == 0)
-      {
-        send(connected, buffer,strlen(buffer), 0); 
-        close(connected);
-        break;
-      }
-
-      else
-      {
-        send(connected, buffer,strlen(buffer), 0);  
-      }
-
-
-      buffer[bytes_recieved] = '\0';
-
-      if (strcmp(buffer , "q") == 0 || strcmp(buffer , "Q") == 0)
-      {
-        close(connected);
-        break;
-      }
-
-      else 
-      {
-        printf("\n RECIEVED DATA = %s " , buffer);
-      }
-      fflush(stdout);
     }
   }       
 

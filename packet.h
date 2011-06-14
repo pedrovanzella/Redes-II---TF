@@ -14,6 +14,7 @@
 /********** OPERACOES *****************/
 /* 0 - HELLO                          */
 /* 1 - Pedido de Login                */
+/* 2 - Login falhou                   */
 /* 3 - Sucesso                        */
 /* 4 - Falha                          */
 /* 5 - Pedido de reserva              */
