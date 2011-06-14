@@ -20,10 +20,26 @@
 
 extern struct aviao* voos[50];
 
-void pacote_pretty_print(Packet* pkt)
+void pacote_pretty_print(Packet* pkt, char op)
 {
   struct usuario* usr;
-  printf("\n\e[1m\e[32mpacote_pretty_print(): enviando\e[0m\n");
+
+  printf("\n\e[1m\e[32mpacote_pretty_print(): ");
+  switch(op)
+  {
+    case 1:
+      printf("Servidor Enviando\e[0m\n");
+      break;
+    case 2:
+      printf("Servidor Recebendo\e[0m\n");
+      break;
+    case 3:
+      printf("Cliente Enviando\e[0m\n");
+      break;
+    case 4:
+      printf("Cliente Recebendo\e[0m\n");
+      break;
+  }
   printf("\tOperacao: %d\n", pkt->operacao);
   printf("\tIP: %s\n", pkt->IP);
 
@@ -93,7 +109,7 @@ void Cliente()
     bytes_recieved = recv(sock, buffer, 1024, 0);
 
     pkt = (Packet*)buffer;
-    pacote_pretty_print(pkt);
+    pacote_pretty_print(pkt, 4);
 
     switch(pkt->operacao)
     {
@@ -223,7 +239,7 @@ void Servidor()
       bytes_recieved = recv(connected,buffer,1024,0);
 
       pkt = (Packet *)buffer;
-      pacote_pretty_print(pkt);
+      pacote_pretty_print(pkt, 2);
 
       switch(pkt->operacao)
       {

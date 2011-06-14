@@ -29,7 +29,11 @@ typedef struct {
 } Packet; /* 259 bytes */
 
 
-void pacote_pretty_print(Packet* pkt);
+/* 1 Server Envia   */
+/* 2 Server Recebe  */
+/* 3 Cliente Envia  */
+/* 4 Cliente Recebe */
+void pacote_pretty_print(Packet* pkt, char op);
 void Cliente();
 void Servidor();
 
