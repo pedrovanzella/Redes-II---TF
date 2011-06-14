@@ -55,6 +55,7 @@ void Cliente()
   struct hostent *host;
   struct sockaddr_in server_addr;  
   char serverIP[20];
+  char op;
   
   Packet* pkt;
   pkt = (Packet*)malloc(sizeof(Packet));
@@ -84,43 +85,63 @@ void Cliente()
 
   while(1)
   {
-
-    bytes_recieved=recv(sock,recv_data,1024,0);
+    /*********** RECEBE DO SERVER **************/
+    bytes_recieved = recv(sock, recv_data, 1024, 0);
     recv_data[bytes_recieved] = '\0';
 
-    if (strcmp(recv_data , "q") == 0 || strcmp(recv_data , "Q") == 0)
+    pkt = (Packet*)recv_data;
+
+    switch(pkt->operacao)
     {
-      close(sock);
-      break;
+      case 0: // HELLO
+        printf("HELLO>\n> ");
+        break;
+      case 4: // FALHA
+        printf("FALHA>\n> ");
+        break;
+      case 3: // SUCESSO
+        printf("SUCESSO>\n> ");
+        break;
     }
 
-    else
+    /***************** ENVIA PARA O SERVER ****************/
+    memset(pkt, '\0', sizeof(Packet)); // Zerar meu pacote depois que li ele
+
+    op = getchar();
+    switch(op)
     {
-      printf("\nRecieved data = %s " , recv_data);
+      case 'l': // LOGIN
+        pkt->operacao = 1; // Pedido de login
+        printf("LOGIN> ");
+        scanf("%s", pkt->usr.nome);
+        printf("SENHA> ");
+        scanf("%s", pkt->usr.senha);
+        send(sock,send_data,strlen(send_data), 0); 
+        break;
+      case 'r': // RESERVA ASSENTO
+        pkt->operacao = 5; // Pedido de reserva
+        printf("VOO> ");
+        scanf("%s", pkt->voo.nome);
+        printf("ASSENTO> ");
+        /* TODO */
+        break;
+      case 'c': // CONSULTA VOO
+        break;
+      default:
+        printf("Operacao desconhecida!\n");
+        continue;
     }
-
-    printf("\nSEND (q or Q to quit) : ");
-    gets(send_data);
-
-    if (strcmp(send_data , "q") != 0 && strcmp(send_data , "Q") != 0)
-    {
-      send(sock,send_data,strlen(send_data), 0); 
-    }
-
-    else
-    {
-      send(sock,send_data,strlen(send_data), 0);   
-      close(sock);
-      break;
-    }
-
   }   
 }
 
 void Servidor()
 {
   int sock, connected, bytes_recieved , true = 1;  
-  char send_data [1024] , recv_data[1024];       
+  char send_data [1024], recv_data[1024];       
+
+  Packet* pkt;
+  pkt = (Packet*)malloc(sizeof(Packet));
+  memset(pkt, '\0', sizeof(Packet));
 
   struct sockaddr_in server_addr,client_addr;    
   int sin_size;
@@ -155,7 +176,6 @@ void Servidor()
 
   printf("\nTCPServer Waiting for client on port 5000");
   fflush(stdout);
-
 
   while(1)
   {  

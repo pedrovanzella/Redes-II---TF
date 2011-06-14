@@ -12,8 +12,11 @@
 #include "aviao.h"
 
 /********** OPERACOES *****************/
+/* 0 - HELLO                          */
 /* 1 - Pedido de Login                */
-/* 2 - Pedido de conexao              */
+/* 3 - Sucesso                        */
+/* 4 - Falha                          */
+/* 5 - Pedido de reserva              */
 
 typedef struct {
   char operacao;         /* 1   byte  */
