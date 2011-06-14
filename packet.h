@@ -16,11 +16,11 @@
 /* 2 - Pedido de conexao              */
 
 typedef struct {
-  char operacao;         /* 1  byte  */
-  char IP[20];           /* 20 bytes */
-  struct usuario usr;    /* 40 bytes */
-  struct aviao voo;
-} Packet;
+  char operacao;         /* 1   byte  */
+  char IP[20];           /* 20  bytes */
+  struct usuario usr;    /* 40  bytes */
+  struct aviao voo;      /* 198 bytes */
+} Packet; /* 259 bytes */
 
 
 void pacote_pretty_print(Packet* pkt);

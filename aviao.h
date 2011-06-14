@@ -15,7 +15,7 @@ struct aviao
   int chegada;            /* 4    bytes */
   char status[20];        /* 20   bytes */
   int assentos[150];      /* 150  bytes */
-};
+}; /* 198 bytes */
 
 struct aviao* voos[50];
 
