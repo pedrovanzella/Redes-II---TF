@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
   if(*argv[1] == 'c')
   {
     /* MODO CLIENTE */
+    Cliente();
     /********************* INICIALIZAR *********************/
     Packet* pkt;
     pkt = (Packet*)malloc(sizeof(Packet));
@@ -66,7 +67,7 @@ int main(int argc, char* argv[])
     popula_db_voos();
 
     /********************* Espera cliente *********************/
-    servidor();
+    Servidor();
 
   }
 

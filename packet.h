@@ -23,10 +23,8 @@ typedef struct {
 } Packet;
 
 
-void DieWithError(char *errorMessage);  /* External error handling function */
-void servidor();
-char *envia_cliente_server(Packet* pkt);
-void HandleTCPClient(int clntSocket);
 void pacote_pretty_print(Packet* pkt);
+void Cliente();
+void Servidor();
 
 #endif /* _PACKET_H */
