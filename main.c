@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     printf("senha: ");
     scanf("%s", pkt->usr.senha);
     pkt->operacao = 1; // Pedido de Login
-    envia_cliente_server(pkt);
+    pacote_pretty_print(pkt);
 
     /********************* Espera servidor *********************/
   }
