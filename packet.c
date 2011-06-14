@@ -225,6 +225,7 @@ void Servidor()
   while(1)
   {  
     /* Envia HELLO */
+    memset(buffer, '\0', sizeof(buffer));
     send(connected, buffer,strlen(buffer), 0); 
 
     sin_size = sizeof(struct sockaddr_in);
