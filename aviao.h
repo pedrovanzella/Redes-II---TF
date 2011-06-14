@@ -20,11 +20,11 @@ struct aviao
 struct aviao* voos[50];
 
 struct aviao* novo_aviao(char* n, int p, int c, char* s);
-struct aviao* reserva_assento(struct aviao* av, int ass, char* user);
+struct aviao* reserva_assento(struct aviao* av, int ass, int usr);
 struct aviao* find_by_voo(char* name);
 void popula_db_voos();
 void popula_assentos();
 void salva_voo(struct aviao* voo);
-void salva_assento(char* voo, int ass, char* pass);
+void salva_assento(char* voo, int ass, int pass);
 
 #endif /* _AVIAO_H */

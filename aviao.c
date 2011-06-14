@@ -59,7 +59,6 @@ void popula_db_voos()
     name[j] = '\0';
 
     /* achar partida */
-    /* TODO: BUG!! Primeiro sempre fica zero? */
     int k = 0;
     j++;
     while(linha[j] != ':')
@@ -113,7 +112,7 @@ void popula_assentos()
   char linha[200];
   char nome[20];
   int ass;
-  char pass[20];
+  int pass;
   char tmp[4];
 
   printf("\n\e[1m\e[32mPopulando DB de assentos...\e[0m\n");
@@ -157,14 +156,15 @@ void popula_assentos()
     j = 0;
     while(linha[i] != '\0')
     {
-      pass[j] = linha[i];
+      tmp[j] = linha[i];
       i++;
       j++;
     }
-    pass[j] = '\0'; // Limpar fim da string
-    printf("%s\n", pass);
+    tmp[j] = '\0'; // Limpar fim da string
+    pass = atoi(tmp);
+    printf("%d\n", pass);
 
-    strcpy(av->assentos[ass], pass); // Aloca assento
+    av->assentos[ass] = pass; // Aloca assento
 
   }
 }
@@ -180,14 +180,14 @@ void salva_voo(struct aviao* voo)
   fclose(voofile);
 }
 
-void salva_assento(char* voo, int ass, char* pass)
+void salva_assento(char* voo, int ass, int pass)
 {
   if(!(assentosfile = fopen("assentosfile", "a+")))
   {
     fprintf(stderr, "salva_assento(): Falha ao abrir arquivo de assentos!");
     exit(1);
   }
-  fprintf(assentosfile, "%s:%d:%s", voo, ass, pass);
+  fprintf(assentosfile, "%s:%d:%d", voo, ass, pass);
   fclose(assentosfile);
 }
 
@@ -206,12 +206,12 @@ struct aviao* novo_aviao(char* n, int p, int c, char* s)
   return av;
 }
 
-struct aviao* reserva_assento(struct aviao* av, int ass, char* user)
+struct aviao* reserva_assento(struct aviao* av, int ass, int user)
 {
   /* verifica se assento esta vazio */
-  if(!(strcpy(av->assentos[ass], "")))
+  if(av->assentos[ass] == 0)
   {
-    strcpy(av->assentos[ass], user); //Copia nome do user para o assento
+    av->assentos[ass] = user;
     return av;
   }
   printf("assento ocupado!\n");

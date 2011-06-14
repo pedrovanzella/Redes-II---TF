@@ -34,9 +34,9 @@ void pacote_pretty_print(Packet* pkt)
   int i;
   for(i = 0; i <= 150; i++)
   {
-    if(pkt->voo.assentos[i][0] != '\0')
+    if(pkt->voo.assentos[i] != 0)
     {
-      printf("\t\t\t[%3d] %s\n", i, pkt->voo.assentos[i]);
+      printf("\t\t\t[%3d] %d\n", i, pkt->voo.assentos[i]);
     }
   }
   printf("\n");
