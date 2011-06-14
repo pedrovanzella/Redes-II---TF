@@ -123,6 +123,7 @@ void Cliente()
         printf("SENHA> ");
         scanf("%s", pkt->usr.senha);
         send(sock, buffer, sizeof(buffer), 0); 
+        pacote_pretty_print(pkt, 3);
         break;
       case 4: // FALHA
         printf("FALHA>\n> ");
@@ -148,6 +149,7 @@ void Cliente()
         printf("SENHA> ");
         scanf("%s", pkt->usr.senha);
         send(sock, buffer, sizeof(buffer), 0); 
+        pacote_pretty_print(pkt, 3);
         break;
       case 'r': // RESERVA ASSENTO
         pkt->operacao = 5; // Pedido de reserva
@@ -157,12 +159,14 @@ void Cliente()
         scanf("%d", &ass);
         pkt->voo.assentos[ass] = usr_id;
         send(sock, buffer, sizeof(buffer), 0);
+        pacote_pretty_print(pkt, 3);
         break;
       case 'c': // CONSULTA VOO
         pkt->operacao = 6; // Pedido de consulta
         printf("VOO> ");
         scanf("%s", pkt->voo.nome);
         send(sock, buffer, sizeof(buffer), 0);
+        pacote_pretty_print(pkt, 3);
         break;
       default:
         printf("Operacao desconhecida!\n");
@@ -217,7 +221,7 @@ void Servidor()
     exit(1);
   }
 
-  printf("\nTCPServer Waiting for client on port 5000");
+  printf("\nTCPServer Waiting for client on port 5000\n");
   
 
   fflush(stdout);
@@ -226,7 +230,9 @@ void Servidor()
   {  
     /* Envia HELLO */
     memset(buffer, '\0', sizeof(buffer));
+    pkt = (Packet *)buffer;
     send(connected, buffer,strlen(buffer), 0); 
+    pacote_pretty_print(pkt, 1);
 
     sin_size = sizeof(struct sockaddr_in);
 
@@ -238,8 +244,6 @@ void Servidor()
     {
       /********************* RECEBE DO CLIENTE ******************/
       bytes_recieved = recv(connected,buffer,1024,0);
-
-      pkt = (Packet *)buffer;
       pacote_pretty_print(pkt, 2);
 
       switch(pkt->operacao)
@@ -255,6 +259,7 @@ void Servidor()
             pkt->operacao = 2; // Falha de login
           }
           send(connected, buffer,strlen(buffer), 0);  
+          pacote_pretty_print(pkt, 1);
           break;
         case 5: // Pedido de reserva
           /* Achar qual assento */
@@ -263,6 +268,7 @@ void Servidor()
           {
             pkt->operacao = 4;
             send(connected, buffer, strlen(buffer), 0);
+            pacote_pretty_print(pkt, 1);
             break;
           }
           for(i = 0; i <= 150; i++)
@@ -276,6 +282,7 @@ void Servidor()
           {
             pkt->operacao = 4;
             send(connected, buffer, strlen(buffer), 0);
+            pacote_pretty_print(pkt, 1);
             break;
           }
           av = reserva_assento(av, ass, pkt->usr.id);
@@ -283,6 +290,7 @@ void Servidor()
           {
             pkt->operacao = 4;
             send(connected, buffer, strlen(buffer), 0);
+            pacote_pretty_print(pkt, 1);
             break;
           }
           av2 = &pkt->voo;
@@ -294,17 +302,20 @@ void Servidor()
           {
             pkt->operacao = 4;
             send(connected, buffer, strlen(buffer), 0);
+            pacote_pretty_print(pkt, 1);
           }
           else // Achei o voo
           {
             memcpy(&pkt->voo, av, sizeof(struct aviao)); // Copia voo achado pro pacote
             pkt->operacao = 7; // Manda resposta
             send(connected, buffer, strlen(buffer), 0);
+            pacote_pretty_print(pkt, 1);
           }
           break;
         default:
           pkt->operacao = 4;
           send(connected, buffer,strlen(buffer), 0);  
+          pacote_pretty_print(pkt, 1);
           break;
       }
     }
