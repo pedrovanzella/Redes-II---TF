@@ -51,7 +51,7 @@ void pacote_pretty_print(Packet* pkt)
 void Cliente()
 {
   int sock, bytes_recieved;  
-  char send_data[1024],recv_data[1024];
+  char buffer[1024];
   struct hostent *host;
   struct sockaddr_in server_addr;  
   char serverIP[20];
@@ -88,9 +88,9 @@ void Cliente()
   while(1)
   {
     /*********** RECEBE DO SERVER **************/
-    bytes_recieved = recv(sock, recv_data, 1024, 0);
+    bytes_recieved = recv(sock, buffer, 1024, 0);
 
-    pkt = (Packet*)recv_data;
+    pkt = (Packet*)buffer;
 
     switch(pkt->operacao)
     {
@@ -120,7 +120,7 @@ void Cliente()
         scanf("%s", pkt->usr.nome);
         printf("SENHA> ");
         scanf("%s", pkt->usr.senha);
-        send(sock, send_data, sizeof(send_data), 0); 
+        send(sock, buffer, sizeof(buffer), 0); 
         break;
       case 'r': // RESERVA ASSENTO
         pkt->operacao = 5; // Pedido de reserva
@@ -129,13 +129,13 @@ void Cliente()
         printf("ASSENTO> ");
         scanf("%d", &ass);
         pkt->voo.assentos[ass] = usr_id;
-        send(sock, send_data, sizeof(send_data), 0);
+        send(sock, buffer, sizeof(buffer), 0);
         break;
       case 'c': // CONSULTA VOO
         pkt->operacao = 6; // Pedido de consulta
         printf("VOO> ");
         scanf("%s", pkt->voo.nome);
-        send(sock, send_data, sizeof(send_data), 0);
+        send(sock, buffer, sizeof(buffer), 0);
         break;
       default:
         printf("Operacao desconhecida!\n");
@@ -147,11 +147,12 @@ void Cliente()
 void Servidor()
 {
   int sock, connected, bytes_recieved , true = 1;  
-  char send_data [1024], recv_data[1024];       
+  char buffer[1024];
 
   Packet* pkt;
   pkt = (Packet*)malloc(sizeof(Packet));
   memset(pkt, '\0', sizeof(Packet));
+  memset(buffer, '\0', sizeof(buffer));
 
   struct sockaddr_in server_addr,client_addr;    
   int sin_size;
@@ -185,10 +186,14 @@ void Servidor()
   }
 
   printf("\nTCPServer Waiting for client on port 5000");
+  
+
   fflush(stdout);
 
   while(1)
   {  
+    /* Envia HELLO */
+    send(connected, buffer,strlen(buffer), 0); 
 
     sin_size = sizeof(struct sockaddr_in);
 
@@ -198,26 +203,41 @@ void Servidor()
 
     while (1)
     {
-      printf("\n SEND (q or Q to quit) : ");
-      gets(send_data);
+      /********************* RECEBE DO CLIENTE ******************/
+      bytes_recieved = recv(connected,buffer,1024,0);
 
-      if (strcmp(send_data , "q") == 0 || strcmp(send_data , "Q") == 0)
+      pkt = (Packet *)buffer;
+
+      switch(pkt->operacao)
       {
-        send(connected, send_data,strlen(send_data), 0); 
+        case 1: // Pedido de Login
+          break;
+        case 5: // Pedido de reserva
+          break;
+        case 6: // Pedido de consulta
+          break;
+        default:
+          break;
+      }
+      printf("\n SEND (q or Q to quit) : ");
+      gets(buffer);
+
+      if (strcmp(buffer , "q") == 0 || strcmp(buffer , "Q") == 0)
+      {
+        send(connected, buffer,strlen(buffer), 0); 
         close(connected);
         break;
       }
 
       else
       {
-        send(connected, send_data,strlen(send_data), 0);  
+        send(connected, buffer,strlen(buffer), 0);  
       }
 
-      bytes_recieved = recv(connected,recv_data,1024,0);
 
-      recv_data[bytes_recieved] = '\0';
+      buffer[bytes_recieved] = '\0';
 
-      if (strcmp(recv_data , "q") == 0 || strcmp(recv_data , "Q") == 0)
+      if (strcmp(buffer , "q") == 0 || strcmp(buffer , "Q") == 0)
       {
         close(connected);
         break;
@@ -225,7 +245,7 @@ void Servidor()
 
       else 
       {
-        printf("\n RECIEVED DATA = %s " , recv_data);
+        printf("\n RECIEVED DATA = %s " , buffer);
       }
       fflush(stdout);
     }
