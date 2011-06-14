@@ -93,6 +93,7 @@ void Cliente()
     bytes_recieved = recv(sock, buffer, 1024, 0);
 
     pkt = (Packet*)buffer;
+    pacote_pretty_print(pkt);
 
     switch(pkt->operacao)
     {
@@ -165,6 +166,9 @@ void Servidor()
   memset(buffer, '\0', sizeof(buffer));
   
   struct aviao* av;
+  struct aviao* av2;
+  int ass = 0;
+  int i;
 
   struct sockaddr_in server_addr,client_addr;    
   int sin_size;
@@ -219,6 +223,7 @@ void Servidor()
       bytes_recieved = recv(connected,buffer,1024,0);
 
       pkt = (Packet *)buffer;
+      pacote_pretty_print(pkt);
 
       switch(pkt->operacao)
       {
@@ -235,7 +240,36 @@ void Servidor()
           send(connected, buffer,strlen(buffer), 0);  
           break;
         case 5: // Pedido de reserva
-          /* TODO */
+          /* Achar qual assento */
+          av = find_by_voo(pkt->voo.nome);
+          if(!av) // Nao temos aviao com esse nome
+          {
+            pkt->operacao = 4;
+            send(connected, buffer, strlen(buffer), 0);
+            break;
+          }
+          for(i = 0; i <= 150; i++)
+          {
+            if(pkt->voo.assentos[i] != 0)
+            {
+              ass = i;
+            }
+          }
+          if(ass == 0) // pacote invalido
+          {
+            pkt->operacao = 4;
+            send(connected, buffer, strlen(buffer), 0);
+            break;
+          }
+          av = reserva_assento(av, ass, pkt->usr.id);
+          if(!av) // Assento ocupado
+          {
+            pkt->operacao = 4;
+            send(connected, buffer, strlen(buffer), 0);
+            break;
+          }
+          av2 = &pkt->voo;
+          memcpy(av2, av, sizeof(struct aviao));
           break;
         case 6: // Pedido de consulta
           av = find_by_voo(pkt->voo.nome);
