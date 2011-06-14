@@ -103,6 +103,9 @@ void Cliente()
       case 3: // SUCESSO
         printf("SUCESSO>\n> ");
         break;
+      case 7: // RESPOSTA DE CONSULTA
+        printf("PARTIDA: %d\tCHEGADA: %d\nSTATUS: %s\n> ", pkt->voo.partida, pkt->voo.chegada, pkt->voo.status);
+        break;
     }
 
     /***************** ENVIA PARA O SERVER ****************/
@@ -129,6 +132,10 @@ void Cliente()
         send(sock, send_data, sizeof(send_data), 0);
         break;
       case 'c': // CONSULTA VOO
+        pkt->operacao = 6; // Pedido de consulta
+        printf("VOO> ");
+        scanf("%s", pkt->voo.nome);
+        send(sock, send_data, sizeof(send_data), 0);
         break;
       default:
         printf("Operacao desconhecida!\n");

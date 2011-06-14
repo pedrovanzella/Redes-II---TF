@@ -17,6 +17,8 @@
 /* 3 - Sucesso                        */
 /* 4 - Falha                          */
 /* 5 - Pedido de reserva              */
+/* 6 - Pedido de consulta             */
+/* 7 - Resposta de consulta           */
 
 typedef struct {
   char operacao;         /* 1   byte  */
