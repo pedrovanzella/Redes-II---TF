@@ -18,6 +18,8 @@
 #include "usuario.h"
 #include "aviao.h"
 
+extern struct aviao* voos[50];
+
 void pacote_pretty_print(Packet* pkt)
 {
   struct usuario* usr;
@@ -161,6 +163,8 @@ void Servidor()
   pkt = (Packet*)malloc(sizeof(Packet));
   memset(pkt, '\0', sizeof(Packet));
   memset(buffer, '\0', sizeof(buffer));
+  
+  struct aviao* av;
 
   struct sockaddr_in server_addr,client_addr;    
   int sin_size;
@@ -222,6 +226,7 @@ void Servidor()
           if(login(pkt->usr.nome, pkt->usr.senha))
           {
             pkt->operacao = 3; // SUCESSO!
+            pkt->usr.id = find_by_name(pkt->usr.nome)->id;
           }
           else
           {
@@ -230,10 +235,25 @@ void Servidor()
           send(connected, buffer,strlen(buffer), 0);  
           break;
         case 5: // Pedido de reserva
+          /* TODO */
           break;
         case 6: // Pedido de consulta
+          av = find_by_voo(pkt->voo.nome);
+          if(!av) // Aviao nao encontrado
+          {
+            pkt->operacao = 4;
+            send(connected, buffer, strlen(buffer), 0);
+          }
+          else // Achei o voo
+          {
+            memcpy(&pkt->voo, av, sizeof(struct aviao)); // Copia voo achado pro pacote
+            pkt->operacao = 7; // Manda resposta
+            send(connected, buffer, strlen(buffer), 0);
+          }
           break;
         default:
+          pkt->operacao = 4;
+          send(connected, buffer,strlen(buffer), 0);  
           break;
       }
     }
