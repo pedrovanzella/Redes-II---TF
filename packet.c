@@ -56,6 +56,8 @@ void Cliente()
   struct sockaddr_in server_addr;  
   char serverIP[20];
   char op;
+  int ass;
+  int usr_id = 0;
   
   Packet* pkt;
   pkt = (Packet*)malloc(sizeof(Packet));
@@ -87,7 +89,6 @@ void Cliente()
   {
     /*********** RECEBE DO SERVER **************/
     bytes_recieved = recv(sock, recv_data, 1024, 0);
-    recv_data[bytes_recieved] = '\0';
 
     pkt = (Packet*)recv_data;
 
@@ -116,14 +117,16 @@ void Cliente()
         scanf("%s", pkt->usr.nome);
         printf("SENHA> ");
         scanf("%s", pkt->usr.senha);
-        send(sock,send_data,strlen(send_data), 0); 
+        send(sock, send_data, sizeof(send_data), 0); 
         break;
       case 'r': // RESERVA ASSENTO
         pkt->operacao = 5; // Pedido de reserva
         printf("VOO> ");
         scanf("%s", pkt->voo.nome);
         printf("ASSENTO> ");
-        /* TODO */
+        scanf("%d", &ass);
+        pkt->voo.assentos[ass] = usr_id;
+        send(sock, send_data, sizeof(send_data), 0);
         break;
       case 'c': // CONSULTA VOO
         break;
