@@ -34,31 +34,7 @@ int main(int argc, char* argv[])
   {
     /* MODO CLIENTE */
     Cliente();
-    /********************* INICIALIZAR *********************/
-    Packet* pkt;
-    pkt = (Packet*)malloc(sizeof(Packet));
-    memset(pkt, '\0', sizeof(Packet));
-
-    /********************* CONEXAO *********************/
-    printf("Informe IP do servidor: ");
-    /* TODO: Verificar validade do formato! */
-    scanf("%s", pkt->IP);
-    pkt->operacao = 2; // Pedido de conexao
-    //envia_cliente_server(pkt);
-    pacote_pretty_print(pkt);
-
-    /********************* Log in *********************/
-    printf("Informe credenciais (caso nao tenha, informe mesmo assim que serao salvas)\n");
-    printf("login: ");
-    scanf("%s", pkt->usr.nome);
-    printf("senha: ");
-    scanf("%s", pkt->usr.senha);
-    pkt->operacao = 1; // Pedido de Login
-    pacote_pretty_print(pkt);
-
-    /********************* Espera servidor *********************/
   }
-
   else if(*argv[1] == 's')
   {
     /* MODO SERVIDOR */
@@ -66,11 +42,10 @@ int main(int argc, char* argv[])
     popula_db_users();
     popula_db_voos();
 
-    /********************* Espera cliente *********************/
+    /********************* SERVIDOR *********************/
     Servidor();
 
   }
-
   else /* parametro errado */
   {
     fprintf(stderr, "Parametro desconhecido (%c). Parametros suportados sao s para servidor ou c para cliente\n", *argv[1]);
