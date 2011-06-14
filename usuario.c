@@ -20,6 +20,7 @@ struct usuario* novo_usuario(int id, char* nome, char* senha)
   strcpy(usr->nome, nome);
   strcpy(usr->senha, senha);
   users_total++;
+  printf("\t\tCriei [%d] [%s] [%s]\n", usr->id, usr->nome, usr->senha);
   return usr;
 }
 
@@ -53,6 +54,7 @@ void popula_db_users()
     tmp[j] = '\0';
     id = atoi(tmp);
 
+    j++;
     k = 0;
     while(linha[j] != ':')
     {
@@ -119,6 +121,19 @@ struct usuario* find_by_name(char* name)
   for(i = 0; i < users_total; i++)
   {
     if(!(strcmp(users[i]->nome, name))) 
+    {
+      return users[i];
+    }
+  }
+  return NULL;
+}
+
+struct usuario* find_by_id(int id)
+{
+  int i;
+  for(i = 0; i < users_total; i++)
+  {
+    if(users[i]->id == id)
     {
       return users[i];
     }

@@ -16,6 +16,7 @@
 
 void pacote_pretty_print(Packet* pkt)
 {
+  struct usuario* usr;
   printf("\n\e[1m\e[32mpacote_pretty_print(): enviando\e[0m\n");
   printf("\tOperacao: %d\n", pkt->operacao);
   printf("\tIP: %s\n", pkt->IP);
@@ -36,7 +37,8 @@ void pacote_pretty_print(Packet* pkt)
   {
     if(pkt->voo.assentos[i] != 0)
     {
-      printf("\t\t\t[%3d] %d\n", i, pkt->voo.assentos[i]);
+      usr = find_by_id(pkt->voo.assentos[i]);
+      printf("\t\t\t[%3d] [%d] %s\n", i, pkt->voo.assentos[i], usr->nome);
     }
   }
   printf("\n");

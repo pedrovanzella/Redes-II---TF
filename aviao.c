@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "aviao.h"
+#include "usuario.h"
 
 FILE* voofile;
 FILE* assentosfile;
@@ -114,6 +115,7 @@ void popula_assentos()
   int ass;
   int pass;
   char tmp[4];
+  struct usuario* usr;
 
   printf("\n\e[1m\e[32mPopulando DB de assentos...\e[0m\n");
 
@@ -162,7 +164,15 @@ void popula_assentos()
     }
     tmp[j] = '\0'; // Limpar fim da string
     pass = atoi(tmp);
-    printf("%d\n", pass);
+    usr = find_by_id(pass);
+    if(!usr)
+    {
+      printf("[0] Piloto\n");
+    }
+    else
+    {
+      printf("[%d] %s\n", pass, usr->nome);
+    }
 
     av->assentos[ass] = pass; // Aloca assento
 
