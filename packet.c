@@ -108,7 +108,7 @@ void Cliente()
   {
     printf("dentro do while\n");
     /*********** RECEBE DO SERVER **************/
-    bytes_recieved = recv(sock, buffer, 1024, 0);
+    bytes_recieved = recv(sock, buffer, sizeof(buffer), 0);
 
     pkt = (Packet*)buffer;
     pacote_pretty_print(pkt, 4);
@@ -240,7 +240,7 @@ void Servidor()
       /* Envia HELLO */
       memset(buffer, '\0', sizeof(buffer));
       pkt = (Packet *)buffer;
-      send(connected, buffer,strlen(buffer), 0); 
+      send(connected, buffer, sizeof(buffer), 0); // Size seria zero aqui com strlen...
       pacote_pretty_print(pkt, 1);
     }
 
@@ -249,7 +249,7 @@ void Servidor()
     while (1)
     {
       /********************* RECEBE DO CLIENTE ******************/
-      bytes_recieved = recv(connected,buffer,1024,0);
+      bytes_recieved = recv(connected, buffer, sizeof(buffer), 0);
       pacote_pretty_print(pkt, 2);
 
       switch(pkt->operacao)
@@ -264,7 +264,7 @@ void Servidor()
           {
             pkt->operacao = 2; // Falha de login
           }
-          send(connected, buffer,strlen(buffer), 0);  
+          send(connected, buffer, sizeof(buffer), 0);  
           pacote_pretty_print(pkt, 1);
           break;
         case 5: // Pedido de reserva
@@ -273,7 +273,7 @@ void Servidor()
           if(!av) // Nao temos aviao com esse nome
           {
             pkt->operacao = 4;
-            send(connected, buffer, strlen(buffer), 0);
+            send(connected, buffer, sizeof(buffer), 0);
             pacote_pretty_print(pkt, 1);
             break;
           }
@@ -287,7 +287,7 @@ void Servidor()
           if(ass == 0) // pacote invalido
           {
             pkt->operacao = 4;
-            send(connected, buffer, strlen(buffer), 0);
+            send(connected, buffer, sizeof(buffer), 0);
             pacote_pretty_print(pkt, 1);
             break;
           }
@@ -295,7 +295,7 @@ void Servidor()
           if(!av) // Assento ocupado
           {
             pkt->operacao = 4;
-            send(connected, buffer, strlen(buffer), 0);
+            send(connected, buffer, sizeof(buffer), 0);
             pacote_pretty_print(pkt, 1);
             break;
           }
@@ -307,20 +307,20 @@ void Servidor()
           if(!av) // Aviao nao encontrado
           {
             pkt->operacao = 4;
-            send(connected, buffer, strlen(buffer), 0);
+            send(connected, buffer, sizeof(buffer), 0);
             pacote_pretty_print(pkt, 1);
           }
           else // Achei o voo
           {
             memcpy(&pkt->voo, av, sizeof(struct aviao)); // Copia voo achado pro pacote
             pkt->operacao = 7; // Manda resposta
-            send(connected, buffer, strlen(buffer), 0);
+            send(connected, buffer, sizeof(buffer), 0);
             pacote_pretty_print(pkt, 1);
           }
           break;
         default:
           pkt->operacao = 4;
-          send(connected, buffer,strlen(buffer), 0);  
+          send(connected, buffer, sizeof(buffer), 0);  
           pacote_pretty_print(pkt, 1);
           break;
       }
