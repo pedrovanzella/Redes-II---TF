@@ -58,11 +58,11 @@ void pacote_pretty_print(Packet* pkt, char op)
   int i;
   for(i = 0; i <= 150; i++)
   {
-    if(pkt->voo.assentos[i] != 0)
+    /*if(pkt->voo.assentos[i] != 0)
     {
       usr = find_by_id(pkt->voo.assentos[i]);
       printf("\t\t\t[%3d] [%d] %s\n", i, pkt->voo.assentos[i], usr->nome);
-    }
+    }*/
   }
   printf("\n");
 }
@@ -106,7 +106,6 @@ void Cliente()
 
   while(1)
   {
-    printf("dentro do while\n");
     /*********** RECEBE DO SERVER **************/
     bytes_recieved = recv(sock, buffer, sizeof(buffer), 0);
 
@@ -246,13 +245,14 @@ void Servidor()
 
     printf("\n\e[1m\e[32mI got a connection from (%s , %d)\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
+  loop:
     while (1)
     {
       /********************* RECEBE DO CLIENTE ******************/
       bytes_recieved = recv(connected, buffer, sizeof(buffer), 0);
       pacote_pretty_print(pkt, 2);
 
-      switch(pkt->operacao)
+	switch(pkt->operacao)
       {
         case 1: // Pedido de Login
           if(login(pkt->usr.nome, pkt->usr.senha))
@@ -324,7 +324,9 @@ void Servidor()
           pacote_pretty_print(pkt, 1);
           break;
       }
+		
     }
+	  goto loop;
   }       
 
   close(sock);
