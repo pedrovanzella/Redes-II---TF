@@ -110,7 +110,7 @@ void Cliente()
     /*********** RECEBE DO SERVER **************/
     bytes_recieved = recv(sock, buffer, 1024, 0);
 
-    pkt = (Packet*)buffer;
+    pkt = (Packet*)buffer + 0x22;
     pacote_pretty_print(pkt, 4);
 
     switch(pkt->operacao)
@@ -239,7 +239,7 @@ void Servidor()
     {
       /* Envia HELLO */
       memset(buffer, '\0', sizeof(buffer));
-      pkt = (Packet *)buffer;
+      pkt = (Packet *)buffer + 0x22;
       send(connected, buffer,strlen(buffer), 0); 
       pacote_pretty_print(pkt, 1);
     }
