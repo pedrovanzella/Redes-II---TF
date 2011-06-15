@@ -106,6 +106,7 @@ void Cliente()
 
   while(1)
   {
+    printf("dentro do while\n");
     /*********** RECEBE DO SERVER **************/
     bytes_recieved = recv(sock, buffer, 1024, 0);
 
@@ -243,7 +244,7 @@ void Servidor()
       pacote_pretty_print(pkt, 1);
     }
 
-    printf("\nI got a connection from (%s , %d)", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+    printf("\n\e[1m\e[32mI got a connection from (%s , %d)\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
     while (1)
     {
