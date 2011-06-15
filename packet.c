@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <string.h>
@@ -231,7 +232,7 @@ void Servidor()
     
     sin_size = sizeof(struct sockaddr_in);
 
-    connected = accept(sock, (struct sockaddr *)&client_addr,&sin_size);
+    connected = accept(sock, (struct sockaddr *)&client_addr, &sin_size);
 
     if(connected)
     {

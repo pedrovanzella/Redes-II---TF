@@ -64,7 +64,7 @@ void popula_db_voos()
     j++;
     while(linha[j] != ':')
     {
-      tmp[k] == linha[j];
+      tmp[k] = linha[j];
       j++;
       k++;
     }
