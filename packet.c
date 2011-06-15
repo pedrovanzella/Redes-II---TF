@@ -228,15 +228,19 @@ void Servidor()
 
   while(1)
   {  
-    /* Envia HELLO */
-    memset(buffer, '\0', sizeof(buffer));
-    pkt = (Packet *)buffer;
-    send(connected, buffer,strlen(buffer), 0); 
-    pacote_pretty_print(pkt, 1);
-
+    
     sin_size = sizeof(struct sockaddr_in);
 
     connected = accept(sock, (struct sockaddr *)&client_addr,&sin_size);
+
+    if(connected)
+    {
+      /* Envia HELLO */
+      memset(buffer, '\0', sizeof(buffer));
+      pkt = (Packet *)buffer;
+      send(connected, buffer,strlen(buffer), 0); 
+      pacote_pretty_print(pkt, 1);
+    }
 
     printf("\nI got a connection from (%s , %d)", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
