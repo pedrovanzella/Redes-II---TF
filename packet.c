@@ -25,7 +25,7 @@ void pacote_pretty_print(Packet* pkt, char op)
 {
   struct usuario* usr;
 
-	return;w
+  return;
   printf("\n\e[1m\e[32mpacote_pretty_print(): ");
   switch(op)
   {
