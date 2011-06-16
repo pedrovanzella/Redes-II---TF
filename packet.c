@@ -171,7 +171,7 @@ void Cliente()
         pacote_pretty_print(pkt, 3);
         break;
       default:
-        printf("Operacao desconhecida!\n");
+      //  printf("Operacao desconhecida!\n");
         continue;
     }
   }   
